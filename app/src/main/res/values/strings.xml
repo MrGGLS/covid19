@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">covid19</string>
+    <string name="app_name">covid-19 helper</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="button_toast_label">Toast</string>
+    <string name="button_label_Add">Add</string>
+    <string name="count_initial_value">0</string>
+    <string name="toast_message">Hello Toast!</string>
+    <string name="reset_to_zero">zero</string>
 </resources>
