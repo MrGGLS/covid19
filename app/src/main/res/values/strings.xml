@@ -7,4 +7,7 @@
     <string name="count_initial_value">0</string>
     <string name="toast_message">Hello Toast!</string>
     <string name="reset_to_zero">zero</string>
+    <string name="to_qr_activity">扫描二维码</string>
+    <string name="to_ep_map_activity">查看疫情地图</string>
+    <string name="to_guide_activity">防疫贴士</string>
 </resources>

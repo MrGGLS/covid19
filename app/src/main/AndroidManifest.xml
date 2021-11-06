@@ -11,12 +11,15 @@
         android:theme="@style/Theme.Covid19">
         <activity
             android:name=".GuideActivity"
+            android:label="防疫指南"
             android:exported="false" />
         <activity
             android:name=".EPMapActivity"
+            android:label="疫情地图"
             android:exported="false" />
         <activity
             android:name=".QRCodeActivity"
+            android:label="查看二维码"
             android:exported="false" />
         <activity
             android:name=".DisplayMessageActivity"

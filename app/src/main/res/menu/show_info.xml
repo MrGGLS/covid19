@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+    <item android:id="@+id/to_qr_activity"
+        android:title="@string/to_qr_activity" />
+    <item android:id="@+id/to_ep_map_activity"
+        android:title="@string/to_ep_map_activity" />
+    <item android:id="@+id/to_guide_activity"
+        android:title="@string/to_guide_activity" />
+</menu>

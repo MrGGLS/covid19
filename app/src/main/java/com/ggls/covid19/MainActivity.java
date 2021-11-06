@@ -4,16 +4,64 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+public class MainActivity extends AppCompatActivity{
     public static final String EXTRA_MESSAGE = "com.ggls.covid19.MESSAGE";
-
+    FloatingActionButton seeMore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        seeMore = findViewById(R.id.see_more);
+        seeMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopUpMenu(seeMore);
+            }
+        });
+    }
+
+    public void showPopUpMenu(View v){
+        PopupMenu menu=new PopupMenu(this,v);
+        menu.getMenuInflater().inflate(R.menu.show_info,menu.getMenu());
+        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+//                Toast.makeText(getApplicationContext(),item.getTitle(),Toast.LENGTH_SHORT).show();
+                Intent intent;
+                switch (item.getItemId()){
+                    case R.id.to_qr_activity:
+                        intent=new Intent(MainActivity.this, QRCodeActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.to_ep_map_activity:
+                        intent=new Intent(MainActivity.this, EPMapActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.to_guide_activity:
+                        intent=new Intent(MainActivity.this, GuideActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
+        menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                Toast.makeText(getApplicationContext(),"closed menu",Toast.LENGTH_SHORT).show();
+            }
+        });
+        menu.show();
     }
 
     public void sendMessage(View view) {
@@ -23,4 +71,5 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
+
 }
