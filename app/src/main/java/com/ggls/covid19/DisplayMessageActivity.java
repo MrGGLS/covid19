@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class DisplayMessageActivity extends AppCompatActivity {
 
-    private int mCount=0;
+    private int mCount = 0;
     private TextView mShowCount;
 
     @Override
@@ -24,7 +24,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.textView);
         textView.setText(message);
 
-        mShowCount = (TextView)findViewById(R.id.show_count);
+        mShowCount = (TextView) findViewById(R.id.show_count);
     }
 
     public void showToast(View view) {
@@ -34,14 +34,14 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
     public void countUp(View view) {
         mCount++;
-        if (mShowCount!=null){
+        if (mShowCount != null) {
             mShowCount.setText(Integer.toString(mCount));
         }
     }
 
     public void resetToZero(View view) {
-        mCount=0;
-        if(mShowCount!=null){
+        mCount = 0;
+        if (mShowCount != null) {
             mShowCount.setText(Integer.toString(mCount));
         }
     }
