@@ -12,7 +12,6 @@ public class UserDataBase extends SQLiteOpenHelper {
     public static final String name = "user_name";
     public static final String travelMapID = "travel_map_id";
     public static final String status = "user_status";
-    public static final String userID = "user_id";
     public static final String password = "password";
 
     public UserDataBase(@Nullable Context context,
@@ -31,7 +30,6 @@ public class UserDataBase extends SQLiteOpenHelper {
                 + name + " VARCHAR(30), "
                 + travelMapID + " INT, "
                 + status + " VARCHAR(10), "
-                + userID + " INT, "
                 + password + " VARCHAR(50) "
                 + ");"
         );

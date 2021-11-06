@@ -39,6 +39,19 @@ public class User {
         return status;
     }
 
+    public String getStatusAsString() {
+        switch (status) {
+            case YELLOW:
+                return "Yellow";
+            case GREEN:
+                return "Green";
+            case RED:
+                return "Red";
+            default:
+                return null;
+        }
+    }
+
     public String getUserID() {
         return userID;
     }
