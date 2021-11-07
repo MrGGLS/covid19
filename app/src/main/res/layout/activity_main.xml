@@ -53,4 +53,86 @@
         app:rippleColor="#0125EF"
         app:srcCompat="@drawable/see_more" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/to_qr"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@drawable/lift_on_touch"
+        android:visibility="invisible"
+        app:cardCornerRadius="@dimen/dp_4"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="@+id/to_ep_map"
+        app:layout_constraintEnd_toEndOf="@+id/to_ep_map"
+        tools:targetApi="lollipop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="@string/to_qr_activity"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/to_ep_map"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="4dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@drawable/lift_on_touch"
+        android:visibility="invisible"
+        app:cardCornerRadius="@dimen/dp_4"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:targetApi="lollipop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="@string/to_ep_map_activity"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/to_guide"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|end"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@drawable/lift_on_touch"
+        android:visibility="invisible"
+        app:cardCornerRadius="@dimen/dp_4"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="@+id/to_ep_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:targetApi="lollipop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:fontFamily="casual"
+            android:gravity="center"
+
+            android:text="@string/to_guide_activity"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
