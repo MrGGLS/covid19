@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,QRCodeActivity.class);
+                showPopUpMenu(seeMore);
                 startActivity(intent);
             }
         });
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,EPMapActivity.class);
+                showPopUpMenu(seeMore);
                 startActivity(intent);
             }
         });
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this,GuideActivity.class);
+                showPopUpMenu(seeMore);
                 startActivity(intent);
             }
         });
@@ -62,14 +65,16 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void showPopUpMenu(View v){
-        if(isOpen){
+        if(!isOpen){
             toQr.setVisibility(View.VISIBLE);
             toEPMap.setVisibility(View.VISIBLE);
             toGuide.setVisibility(View.VISIBLE);
+            seeMore.animate().rotation(-45);
             toQr.animate().translationY(-getResources().getDimension(R.dimen.dp_300)).translationX(-getResources().getDimension(R.dimen.dp_50)).alpha(1f);
             toEPMap.animate().translationY(-getResources().getDimension(R.dimen.dp_200)).translationX(-getResources().getDimension(R.dimen.dp_50)).alpha(1f);
             toGuide.animate().translationY(-getResources().getDimension(R.dimen.dp_100)).translationX(-getResources().getDimension(R.dimen.dp_50)).alpha(1f);
         }else{
+            seeMore.animate().rotation(0);
             toQr.animate().translationY(0).translationX(0).alpha(0f);
             toEPMap.animate().translationY(0).translationX(0).alpha(0f);
             toGuide.animate().translationY(0).translationX(0).alpha(0f);
@@ -78,39 +83,6 @@ public class MainActivity extends AppCompatActivity{
 //            toGuide.setVisibility(View.INVISIBLE);
         }
         isOpen=!isOpen;
-//        PopupMenu menu=new PopupMenu(this,v);
-//        menu.getMenuInflater().inflate(R.menu.show_info,menu.getMenu());
-//        menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-////                Toast.makeText(getApplicationContext(),item.getTitle(),Toast.LENGTH_SHORT).show();
-//                Intent intent;
-//                switch (item.getItemId()){
-//                    case R.id.to_qr_activity:
-//                        intent=new Intent(MainActivity.this, QRCodeActivity.class);
-//                        startActivity(intent);
-//                        break;
-//                    case R.id.to_ep_map_activity:
-//                        intent=new Intent(MainActivity.this, EPMapActivity.class);
-//                        startActivity(intent);
-//                        break;
-//                    case R.id.to_guide_activity:
-//                        intent=new Intent(MainActivity.this, GuideActivity.class);
-//                        startActivity(intent);
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
-//        menu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-//            @Override
-//            public void onDismiss(PopupMenu menu) {
-//                Toast.makeText(getApplicationContext(),"closed menu",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        menu.show();
     }
 
     public void sendMessage(View view) {

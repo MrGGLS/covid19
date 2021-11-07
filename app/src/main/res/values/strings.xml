@@ -10,4 +10,7 @@
     <string name="to_qr_activity">扫描二维码</string>
     <string name="to_ep_map_activity">查看疫情地图</string>
     <string name="to_guide_activity">防疫贴士</string>
+    <string name="to_qr_activity_info">查看和扫描个人疫情防控码</string>
+    <string name="to_ep_map_activity_info">查看个人行踪记录图和疫情趋势</string>
+    <string name="to_guide_activity_info">查看相关疫情小贴士</string>
 </resources>

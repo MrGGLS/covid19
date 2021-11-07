@@ -68,16 +68,28 @@
         app:layout_constraintBottom_toBottomOf="@+id/to_ep_map"
         app:layout_constraintEnd_toEndOf="@+id/to_ep_map"
         tools:targetApi="lollipop">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:fontFamily="casual"
-            android:gravity="center"
-            android:text="@string/to_qr_activity"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/to_qr_activity"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/to_qr_activity_info"
+                android:textSize="15sp" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -97,15 +109,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:targetApi="lollipop">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:fontFamily="casual"
-            android:gravity="center"
-            android:text="@string/to_ep_map_activity"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/to_ep_map_activity"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/to_ep_map_activity_info"
+                android:textSize="15sp" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -124,15 +149,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:targetApi="lollipop">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:fontFamily="casual"
-            android:gravity="center"
-
-            android:text="@string/to_guide_activity"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/to_guide_activity"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="@string/to_guide_activity_info"
+                android:textSize="15sp" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
