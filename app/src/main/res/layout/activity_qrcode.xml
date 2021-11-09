@@ -6,4 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".QRCodeActivity">
 
+    <Button
+        android:id="@+id/tap_to_scan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="#0C84E3"
+        android:backgroundTint="#3F51B5"
+        android:fontFamily="casual"
+        android:text="tap to scan"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.076"
+        app:rippleColor="#3F51B5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

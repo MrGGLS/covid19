@@ -4,7 +4,21 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
+        maven { url 'https://developer.huawei.com/repo/' }
     }
 }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+        maven { url 'https://developer.huawei.com/repo/' }
+    }
+    dependencies {
+        classpath 'com.huawei.agconnect:agcp:1.6.1.300'
+        classpath "com.android.tools.build:gradle:7.0.3"
+    }
+}
+
 rootProject.name = "covid19"
 include ':app'
