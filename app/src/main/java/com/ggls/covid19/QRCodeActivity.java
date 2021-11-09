@@ -10,13 +10,19 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.huawei.hms.hmsscankit.ScanUtil;
+import com.huawei.hms.hmsscankit.WriterException;
+import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
 import com.huawei.hms.ml.scan.HmsScan;
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 
@@ -69,7 +75,39 @@ public class QRCodeActivity extends Activity {
             Object obj = data.getParcelableExtra(ScanUtil.RESULT);
             if (obj instanceof HmsScan) {
                 if (!TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
-                    Toast.makeText(this, ((HmsScan) obj).getOriginalValue(), Toast.LENGTH_SHORT).show();
+                    int type = HmsScan.QRCODE_SCAN_TYPE;
+                    int width = 750;
+                    int height = 750;
+                    ImageView qrRes=findViewById(R.id.qr_res);
+                    String res=((HmsScan) obj).getOriginalValue();
+                    Bitmap qrBitmap;
+                    HmsBuildBitmapOption codeRes;
+                    Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+                    if(res.equals("China")){
+                        codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
+                        try {
+                            qrBitmap = ScanUtil.buildBitmap("You're safe!", type, width, height, codeRes);
+                            qrRes.setImageBitmap(qrBitmap);
+                        } catch (WriterException e) {
+                            Log.w("buildBitmap", e);
+                        }
+                    }else if(res.equals("America")){
+                        codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.RED).setBitmapMargin(3).create();
+                        try {
+                            qrBitmap = ScanUtil.buildBitmap("You're in danger!", type, width, height, codeRes);
+                            qrRes.setImageBitmap(qrBitmap);
+                        } catch (WriterException e) {
+                            Log.w("buildBitmap", e);
+                        }
+                    }else{
+                        codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.rgb(0xF2,0xD9,0x0E)).setBitmapMargin(3).create();
+                        try {
+                            qrBitmap = ScanUtil.buildBitmap("You might be safe!", type, width, height, codeRes);
+                            qrRes.setImageBitmap(qrBitmap);
+                        } catch (WriterException e) {
+                            Log.w("buildBitmap", e);
+                        }
+                    }
                 }
                 return;
             }
