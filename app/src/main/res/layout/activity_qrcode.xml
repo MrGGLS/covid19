@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/tap_to_scan"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
@@ -16,7 +16,7 @@
         android:backgroundTint="#3F51B5"
         android:fontFamily="casual"
         android:text="tap to scan"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,4 +40,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tap_to_scan"
         app:layout_constraintVertical_bias="0.326" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/qr_res_tip_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="10dp"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:targetApi="lollipop">
+            <TextView
+                android:id="@+id/qr_res_tip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="哎哟，不错哦"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

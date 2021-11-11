@@ -1,9 +1,3 @@
-/*
- *  Copyright 2020. Huawei Technologies Co., Ltd. All rights reserved.
- *  This subclass is created by HMS Core Toolkit
- *  and used to receive token information or messages returned by HMS server
- *
- */
 package com.ggls.covid19;
 
 import android.Manifest;
@@ -19,7 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.hmsscankit.WriterException;
 import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
@@ -82,7 +80,8 @@ public class QRCodeActivity extends Activity {
                     String res=((HmsScan) obj).getOriginalValue();
                     Bitmap qrBitmap;
                     HmsBuildBitmapOption codeRes;
-                    Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+                    CardView qrTipCard=findViewById(R.id.qr_res_tip_card);
+                    TextView qrTip=findViewById(R.id.qr_res_tip);
                     if(res.equals("China")){
                         codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
                         try {
@@ -108,6 +107,24 @@ public class QRCodeActivity extends Activity {
                             Log.w("buildBitmap", e);
                         }
                     }
+                    Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+                    switch (codeRes.bimapColor){
+                        case Color.GREEN:
+                            qrTip.setText("哎哟，不错哦。请继续保持~");
+                            qrTip.setTextColor(Color.GREEN);
+                            break;
+                        case Color.RED:
+                            qrTip.setText("隔离！马上隔离！");
+                            qrTip.setTextColor(Color.RED);
+                            break;
+                        default:
+                            qrTip.setText("我觉得你还是需要做一下核酸哦~");
+                            qrTip.setTextColor(Color.rgb(0xF2,0xD9,0x0E));
+                            break;
+                    }
+                    qrTipCard.setVisibility(View.VISIBLE);
+                    qrTipCard.setAlpha(0);
+                    qrTipCard.animate().translationY(-300f).alpha(1f).setDuration(1800);
                 }
                 return;
             }

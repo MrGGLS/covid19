@@ -22,5 +22,11 @@ task clean(type: Delete) {
 
 allprojects {
     repositories {
+//        maven {
+//            url 'https://developer.huawei.com/repo/'
+//        }
+//        maven {
+//            url 'https://developer.huawei.com/repo/'
+//        }
     }
 }
