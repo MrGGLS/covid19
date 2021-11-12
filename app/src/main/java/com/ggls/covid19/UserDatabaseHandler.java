@@ -10,10 +10,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
-public class CRUD {
+public class UserDatabaseHandler {
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase db;
+    public static final int DATABASE_VERSION = 1;
 
     private static final String[] columns = {
             UserDataBase.id,
@@ -23,11 +25,8 @@ public class CRUD {
             UserDataBase.password
     };
 
-    public CRUD(@Nullable Context context,
-                @Nullable String name,
-                @Nullable SQLiteDatabase.CursorFactory factory,
-                int version) {
-        dbHelper = new UserDataBase(context, name, factory, version);
+    public UserDatabaseHandler(@Nullable Context context) {
+        dbHelper = new UserDataBase(context, "user_database", null, DATABASE_VERSION);
     }
 
     public void open() {
@@ -41,7 +40,7 @@ public class CRUD {
     public User addUser(User user) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(UserDataBase.name, user.getName());
-        contentValues.put(UserDataBase.status, user.getStatusAsString());
+        contentValues.put(UserDataBase.status, user.getStatus().toString());
         contentValues.put(UserDataBase.travelMapID, user.getTravelMapID());
         contentValues.put(UserDataBase.password, user.getPassword());
 
@@ -50,17 +49,17 @@ public class CRUD {
         return user;
     }
 
-    public void remove(User user) {
+    public void removeUser(User user) {
         db.delete(UserDataBase.tableName,
                 UserDataBase.id + "=" + user.getUserID(),
                 new String[]{String.valueOf(user.getId())}
         );
     }
 
-    public int update(User user) {
+    public int updateUser(User user) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(UserDataBase.name, user.getName());
-        contentValues.put(UserDataBase.status, user.getStatusAsString());
+        contentValues.put(UserDataBase.status, user.getStatus().toString());
         contentValues.put(UserDataBase.travelMapID, user.getTravelMapID());
         contentValues.put(UserDataBase.password, user.getPassword());
 
@@ -88,16 +87,18 @@ public class CRUD {
         String status = cursor.getString(4);
         Status s = null;
 
-        if (status.equals("Red")) {
-            s = Status.RED;
-        } else if (status.equals("Yellow")) {
-            s = Status.YELLOW;
-        } else if (status.equals("Green")) {
-            s = Status.GREEN;
-        }
-
-        if (s == null) {
-            // TODO: error handler
+        switch (status) {
+            case "Red":
+                s = Status.RED;
+                break;
+            case "Yellow":
+                s = Status.YELLOW;
+                break;
+            case "Green":
+                s = Status.GREEN;
+                break;
+            default:
+                // throw exception
         }
 
         User user = new User(cursor.getLong(1),
