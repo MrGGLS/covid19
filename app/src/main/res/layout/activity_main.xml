@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="0dp"
@@ -72,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +79,7 @@
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:text="@string/to_qr_activity"
+                android:textColor="@color/black"
                 android:textSize="23sp"
                 android:textStyle="bold" />
             <TextView
@@ -86,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="casual"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:text="@string/to_qr_activity_info"
                 android:textSize="15sp" />
@@ -120,6 +122,7 @@
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:text="@string/to_ep_map_activity"
+                android:textColor="@color/black"
                 android:textSize="23sp"
                 android:textStyle="bold" />
             <TextView
@@ -129,6 +132,7 @@
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:text="@string/to_ep_map_activity_info"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -160,6 +164,7 @@
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:text="@string/to_guide_activity"
+                android:textColor="@color/black"
                 android:textSize="23sp"
                 android:textStyle="bold" />
             <TextView
@@ -169,6 +174,7 @@
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:text="@string/to_guide_activity_info"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

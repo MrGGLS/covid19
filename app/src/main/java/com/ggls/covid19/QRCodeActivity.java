@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.huawei.hms.hmsscankit.ScanUtil;
@@ -24,7 +25,7 @@ import com.huawei.hms.ml.scan.HmsBuildBitmapOption;
 import com.huawei.hms.ml.scan.HmsScan;
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 
-public class QRCodeActivity extends Activity {
+public class QRCodeActivity extends AppCompatActivity {
     public static final int DEFAULT_VIEW = 0x22;
     private static final int REQUEST_CODE_SCAN = 0X01;
 
@@ -51,6 +52,7 @@ public class QRCodeActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (permissions == null || grantResults == null || grantResults.length < 2 || grantResults[0] != PackageManager.PERMISSION_GRANTED || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
             return;
         }
