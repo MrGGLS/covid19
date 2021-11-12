@@ -8,14 +8,19 @@
         <entry key="..\:/covid19/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.13854166666666667" />
         <entry key="..\:/covid19/app/src/main/res/drawable/lift_on_touch.xml" value="0.26979166666666665" />
         <entry key="..\:/covid19/app/src/main/res/layout-land/activity_display_message.xml" value="0.4" />
-        <entry key="..\:/covid19/app/src/main/res/layout/activity_about_developer.xml" value="0.1296875" />
+        <entry key="..\:/covid19/app/src/main/res/layout/activity_about_developer.xml" value="0.264" />
         <entry key="..\:/covid19/app/src/main/res/layout/activity_display_message.xml" value="0.3316582914572864" />
         <entry key="..\:/covid19/app/src/main/res/layout/activity_epmap.xml" value="0.25" />
         <entry key="..\:/covid19/app/src/main/res/layout/activity_guide.xml" value="0.1296875" />
         <entry key="..\:/covid19/app/src/main/res/layout/activity_main.xml" value="0.34285714285714286" />
         <entry key="..\:/covid19/app/src/main/res/layout/activity_qrcode.xml" value="0.3958664546899841" />
         <entry key="..\:/covid19/app/src/main/res/layout/activity_supportmapfragment_demo.xml" value="0.4" />
+        <entry key="..\:/covid19/app/src/main/res/layout/developer_brief.xml" value="0.25364583333333335" />
         <entry key="..\:/covid19/app/src/main/res/layout/developer_brief1.xml" value="0.24351851851851852" />
+        <entry key="..\:/covid19/app/src/main/res/layout/developer_one_brief.xml" value="0.9276190476190476" />
+        <entry key="..\:/covid19/app/src/main/res/layout/developer_one_details.xml" value="0.2" />
+        <entry key="..\:/covid19/app/src/main/res/layout/developer_two_brief.xml" value="0.25364583333333335" />
+        <entry key="..\:/covid19/app/src/main/res/layout/developer_two_details.xml" value="0.25364583333333335" />
         <entry key="..\:/covid19/app/src/main/res/menu/show_info.xml" value="0.264" />
         <entry key="..\:/covid19/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14583333333333334" />
         <entry key="..\:/covid19/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14583333333333334" />
