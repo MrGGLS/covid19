@@ -1,8 +1,6 @@
 package com.ggls.covid19;
 
 
-import androidx.annotation.NonNull;
-
 public class User {
     private long id;
     private String name;
@@ -41,6 +39,19 @@ public class User {
         return status;
     }
 
+    public String getStatusAsString() {
+        switch (status) {
+            case YELLOW:
+                return "Yellow";
+            case GREEN:
+                return "Green";
+            case RED:
+                return "Red";
+            default:
+                return null;
+        }
+    }
+
     public String getUserID() {
         return userID;
     }
@@ -73,44 +84,21 @@ public class User {
         this.password = password;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                " , name='" + name + '\'' +
-                " , travelMapID='" + travelMapID + '\'' +
-                " , status=" + status.toString() + '\'' +
-                " , userID='" + userID + '\'' +
-                " , password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", travelMapID='" + travelMapID + '\'' +
+                ", status=" + status +
+                ", userID='" + userID + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
 
 enum Status {
-    RED {
-        @NonNull
-        @Override
-        public String toString() {
-            return "Red";
-        }
-    },
-    YELLOW {
-        @NonNull
-        @Override
-        public String toString() {
-            return "Yellow";
-        }
-    },
-    GREEN {
-        @NonNull
-        @Override
-        public String toString() {
-            return "Green";
-        }
-    };
-
-    @NonNull
-    @Override
-    public abstract String toString();
+    RED,
+    YELLOW,
+    GREEN
 }

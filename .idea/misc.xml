@@ -4,7 +4,6 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/covid19/app/src/main/res/drawable-anydpi/location_point.xml" value="0.14583333333333334" />
-        <entry key="..\:/covid19/app/src/main/res/drawable-anydpi/see_more.xml" value="0.14583333333333334" />
         <entry key="..\:/covid19/app/src/main/res/drawable/dimen.xml" value="1.15625" />
         <entry key="..\:/covid19/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.13854166666666667" />
         <entry key="..\:/covid19/app/src/main/res/drawable/lift_on_touch.xml" value="0.26979166666666665" />
@@ -17,7 +16,6 @@
         <entry key="..\:/covid19/app/src/main/res/layout/activity_qrcode.xml" value="0.3958664546899841" />
         <entry key="..\:/covid19/app/src/main/res/layout/activity_supportmapfragment_demo.xml" value="0.4" />
         <entry key="..\:/covid19/app/src/main/res/layout/developer_brief1.xml" value="0.24351851851851852" />
-        <entry key="..\:/covid19/app/src/main/res/layout/developers_brief.xml" value="0.24351851851851852" />
         <entry key="..\:/covid19/app/src/main/res/menu/show_info.xml" value="0.264" />
         <entry key="..\:/covid19/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14583333333333334" />
         <entry key="..\:/covid19/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14583333333333334" />

@@ -9,6 +9,6 @@ public class AboutDevelopers extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_developers);
+        setContentView(R.layout.activity_about_developer);
     }
 }

@@ -1,17 +1,18 @@
 package com.ggls.covid19;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.Manifest;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -21,12 +22,26 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.services.core.AMapException;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeAddress;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
+
+import java.util.ArrayList;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class EPMapActivity extends AppCompatActivity implements AMapLocationListener, LocationSource {
+public class EPMapActivity extends AppCompatActivity implements AMapLocationListener, LocationSource, AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener {
     private static final String TAG = "EPMapActivity";
     private static final int REQUEST_PERMISSIONS = 7777;
     public AMapLocationClient mLocationClient = null;
@@ -35,6 +50,14 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
     MapView mapView;
     private AMap aMap;
     private LocationSource.OnLocationChangedListener mListener;
+    private MyLocationStyle myLocationStyle=new MyLocationStyle();
+//地理编码搜索
+    private GeocodeSearch geocodeSearch;
+    //解析成功标识码
+    private static final int PARSE_SUCCESS_CODE = 1000;
+    //行踪表
+    private ArrayList<String>journeyList=new ArrayList<>();
+    private ArrayList<LatLng>latLngList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +77,50 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         mapView.onCreate(savedInstanceState);
         //初始化地图控制器对象
         aMap = mapView.getMap();
-
+        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(findViewById(R.id.location_great))));
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW) ;
+        myLocationStyle.interval(4000L);
+//        myLocationStyle.strokeColor(Color.argb(0,0,0,0));
+//        myLocationStyle.strokeWidth(0);
+//        myLocationStyle.radiusFillColor(Color.argb(0,0,0,0));
+        aMap.setMyLocationStyle(myLocationStyle);
+        aMap.getUiSettings().setMyLocationButtonEnabled(true);
+        aMap.setOnMapClickListener(this);
+        try {
+            geocodeSearch=new GeocodeSearch(this);
+            geocodeSearch.setOnGeocodeSearchListener(this);
+        } catch (AMapException e) {
+            e.printStackTrace();
+        }
         // 设置定位监听
         aMap.setLocationSource(this);
         // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationEnabled(true);
+        LatLng l1=new LatLng(34,108);
+        LatLng l2=new LatLng(35,109);
+        LatLng l3=new LatLng(36,110);
+        LatLng l4=new LatLng(37,111);
+        latLngList.add(l1);
+        latLngList.add(l2);
+        latLngList.add(l3);
+        latLngList.add(l4);
+        journeyList.add("北京");
+        journeyList.add("上海");
+        journeyList.add("深圳");
+        journeyList.add("广州");
+        for (int i = 0; i < 4; i++) {
+            latlonToAddress(latLngList.get(i));
+        }
+        addMarkers(latLngList,journeyList);
     }
 
     private void initLocation() {
         //初始化定位
-        mLocationClient = new AMapLocationClient(getApplicationContext());
+        try {
+            mLocationClient = new AMapLocationClient(getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //设置定位回调监听
         mLocationClient.setLocationListener(this);
         //初始化AMapLocationClientOption对象
@@ -191,5 +248,52 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
             mLocationClient.onDestroy();
         }
         mLocationClient = null;
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        latlonToAddress(latLng);
+        aMap.addMarker(new MarkerOptions().position(latLng).snippet("DefaultMarker"));
+    }
+
+    private void latlonToAddress(LatLng latLng) {
+        //位置点  通过经纬度进行构建
+        LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+        //逆编码查询  第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 20, GeocodeSearch.AMAP);
+        //异步获取地址信息
+        geocodeSearch.getFromLocationAsyn(query);
+    }
+
+    public static Bitmap convertViewToBitmap(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
+    }
+
+    private void addMarkers(ArrayList<LatLng> latLngList,ArrayList<String>journeyList) {
+        //添加标点
+        ImageView locationPoint=findViewById(R.id.location_danger);
+        for(int i=0;i<latLngList.toArray().length;++i)
+            aMap.addMarker(new MarkerOptions().position(latLngList.get(i)).snippet(journeyList.get(i)).icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(locationPoint))));
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+            //解析result获取地址描述信息
+        if(i == PARSE_SUCCESS_CODE){
+            RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
+            //显示解析后的地址
+            showMsg("地址: "+regeocodeAddress.getFormatAddress());
+        }else {
+            showMsg("获取地址失败");
+        }
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
     }
 }
