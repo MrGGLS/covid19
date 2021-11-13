@@ -1,24 +1,11 @@
 package com.ggls.covid19;
 
 import android.util.Log;
-
-import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class MySQLConnection {
-    // 数据库users的相关
-//    public static final String tableNameOfUsers = "users";
-//    public static final String userID = "_id";
-//    public static final String userName = "user_name";
-//    public static final String userStatus = "user_status";
-//    public static final String userPassword = "password";
-
-    // 数据库map相关
-
-    // 连接数据库使用
     private static final String TAG = "tag_of_remote_database";
     private String driver;
     private String dbURL = "";
@@ -54,24 +41,6 @@ public class MySQLConnection {
         }
 
         return con;
-    }
-
-    public static String[] queryDataBase(String database, String query) throws SQLException {
-        String[] ret = new String[0];
-        Connection con = getConnection();
-        if (con == null) {
-            throw new SQLException();
-        }
-
-        java.sql.Statement statement = con.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-        while (resultSet.next()) {
-            // TODO
-        }
-
-        statement.close();
-        con.close();
-        return ret;
     }
 
 }
