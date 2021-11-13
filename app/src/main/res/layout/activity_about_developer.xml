@@ -82,6 +82,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="33dp"
                 android:text="Github: https://github.com/MrGGLS"
+                android:textColor="@color/black"
                 android:textIsSelectable="true"
                 android:textSize="22sp" />
         </RelativeLayout>
@@ -153,6 +154,7 @@
                 android:layout_marginBottom="33dp"
                 android:text="Github: https://github.com/MrZLeo"
                 android:textSize="22sp"
+                android:textColor="@color/black"
                 android:textIsSelectable="true"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
