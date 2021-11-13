@@ -10,7 +10,6 @@ public class UserDataBase extends SQLiteOpenHelper {
     public static final String tableName = "users";
     public static final String id = "_id";
     public static final String name = "user_name";
-    public static final String travelMapID = "travel_map_id";
     public static final String status = "user_status";
     public static final String password = "password";
 
@@ -28,7 +27,6 @@ public class UserDataBase extends SQLiteOpenHelper {
                 + "("
                 + id + " SERIAL PRIMARY KEY NOT NULL, "
                 + name + " VARCHAR(30), "
-                + travelMapID + " INT, "
                 + status + " VARCHAR(10), "
                 + password + " VARCHAR(50) "
                 + ");"
