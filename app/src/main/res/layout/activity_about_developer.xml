@@ -6,28 +6,155 @@
     android:layout_height="match_parent"
     tools:context=".AboutDevelopers"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center_horizontal">
     <Button
         android:id="@+id/intro_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:background="#2196F3"
-        android:clickable="false"
+        android:clickable="true"
+        android:textIsSelectable="true"
         android:text="又帅又会coding的开发者们"
         android:textSize="30dp"
         android:layout_gravity="center" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/developer_one"
+        android:layout_width="380dp"
+        android:layout_height="280dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@drawable/lift_on_touch"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardElevation="@dimen/dp_8"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        tools:targetApi="lollipop">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/developer_one_profile"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:clickable="false"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="100dp">
 
-    <fragment
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ggls" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/developer_one_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="44dp"
+                android:layout_toRightOf="@id/developer_one_profile"
+                android:text="Mr.GGLS"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="211dp"
+                android:layout_marginBottom="100dp"
+                android:text="Emm, why is works?"
+                android:textColor="@color/design_default_color_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="33dp"
+                android:text="Github: https://github.com/MrGGLS"
+                android:textIsSelectable="true"
+                android:textSize="22sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/developer_two"
+        android:layout_width="380dp"
+        android:layout_height="280dp"
         android:layout_marginTop="20dp"
-        android:id="@+id/developer_one_brief_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:name="com.ggls.covid19.DeveloperOneBriefFragment"/>
-<!--    <fragment-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:id="@+id/developer_two_brief_fragment"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:name="com.ggls.covid19.DeveloperTwoBriefFragment"/>-->
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@drawable/lift_on_touch"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardElevation="@dimen/dp_8"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        tools:targetApi="lollipop">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                android:id="@+id/developer_two_profile"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:clickable="false"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="100dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/zj" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/developer_two_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="45dp"
+                android:layout_marginTop="43dp"
+                android:layout_toRightOf="@id/developer_two_profile"
+                android:text="Mr.ZLeo"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="200dp"
+                android:layout_marginBottom="76dp"
+                android:text="You know that, I have a big house..."
+                android:textColor="@color/design_default_color_primary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="33dp"
+                android:text="Github: https://github.com/MrZLeo"
+                android:textSize="22sp"
+                android:textIsSelectable="true"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.appcompat.widget.LinearLayoutCompat>

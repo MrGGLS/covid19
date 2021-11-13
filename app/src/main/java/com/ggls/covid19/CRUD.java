@@ -18,7 +18,6 @@ public class CRUD {
     private static final String[] columns = {
             UserDataBase.id,
             UserDataBase.name,
-            UserDataBase.travelMapID,
             UserDataBase.status,
             UserDataBase.password
     };
@@ -42,7 +41,6 @@ public class CRUD {
         ContentValues contentValues = new ContentValues();
         contentValues.put(UserDataBase.name, user.getName());
         contentValues.put(UserDataBase.status, user.getStatusAsString());
-        contentValues.put(UserDataBase.travelMapID, user.getTravelMapID());
         contentValues.put(UserDataBase.password, user.getPassword());
 
         long insertID = db.insert(UserDataBase.tableName, null, contentValues);
@@ -61,7 +59,6 @@ public class CRUD {
         ContentValues contentValues = new ContentValues();
         contentValues.put(UserDataBase.name, user.getName());
         contentValues.put(UserDataBase.status, user.getStatusAsString());
-        contentValues.put(UserDataBase.travelMapID, user.getTravelMapID());
         contentValues.put(UserDataBase.password, user.getPassword());
 
         return db.update(UserDataBase.tableName, contentValues, UserDataBase.id + "=?", null);
