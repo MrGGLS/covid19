@@ -4,7 +4,7 @@ package com.ggls.covid19;
 import androidx.annotation.NonNull;
 
 public class User {
-    private long id;
+    private int id;
     private String name;
     private Status status;
     private String password;
@@ -18,7 +18,7 @@ public class User {
         this.password = password;
     }
 
-    public User(long id, String name,
+    public User(int id, String name,
                 Status status, String userID, String password) {
         this.id = id;
         this.name = name;
@@ -26,7 +26,7 @@ public class User {
         this.password = password;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -34,29 +34,15 @@ public class User {
         return name;
     }
 
-
     public Status getStatus() {
         return status;
-    }
-
-    public String getStatusAsString() {
-        switch (status) {
-            case YELLOW:
-                return "Yellow";
-            case GREEN:
-                return "Green";
-            case RED:
-                return "Red";
-            default:
-                return null;
-        }
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
