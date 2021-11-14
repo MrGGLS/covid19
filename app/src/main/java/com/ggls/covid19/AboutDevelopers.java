@@ -1,92 +1,56 @@
 package com.ggls.covid19;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-
-import com.google.android.material.button.MaterialButton;
+import android.widget.Button;
+import android.widget.ImageView;
 
 public class AboutDevelopers extends AppCompatActivity{
-    private CardView developerOne;
-    private CardView developerTwo;
-    private int preX;
-    private int preY;
-    private int startTop;
-    private int startLeft;
-    private int startRight;
-    private int startBottom;
+    private DevelopersBriefFragment devFragment;
+    private DevelopersDetailFragment devDetailFragment;
+    private Button button;
+    private ImageView dev1Profile;
+    private ImageView dev2Profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_developer);
-        developerOne=findViewById(R.id.developer_one);
-        developerOne.setOnTouchListener(new View.OnTouchListener(){
+        button=findViewById(R.id.intro_title);
+        dev1Profile=findViewById(R.id.dev1_profile);
+        dev2Profile=findViewById(R.id.dev2_profile);
+        devFragment=new DevelopersBriefFragment();
+        dev1Profile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-            int action=event.getAction();
-            int x=(int)event.getX();
-            int y=(int)event.getY();
-            int offsetX=0;
-            int offsetY=0;
-            switch (action){
-                case MotionEvent.ACTION_DOWN:
-                    startTop=v.getTop();
-                    startLeft=v.getLeft();
-                    startRight=v.getRight();
-                    startBottom=v.getBottom();
-                    preX=x;
-                    preY=y;
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    offsetX=x-preX;
-                    offsetY=y-preY;
-                    if(Math.abs(offsetX)>40)
-                        offsetX=offsetX>0?40:-40;
-                    if(Math.abs(offsetY)>40)
-                        offsetY=offsetY>0?40:-40;
-                    v.layout(startLeft+offsetX,startTop+offsetY,startRight+offsetX,startBottom+offsetY);
-                    break;
-                case MotionEvent.ACTION_UP:
-                    v.layout(startLeft,startTop,startRight,startBottom);
-                    break;
+            public void onClick(View v) {
+                devDetailFragment=new DevelopersDetailFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .addSharedElement(dev1Profile, "dev1_profile_s")
+                        .addSharedElement(dev2Profile,"dev2_profile_s")
+                        .replace(R.id.dev_container, devDetailFragment)
+                        .addToBackStack("enter")
+                        .commit();
             }
-            return true;
-        }});
-        developerTwo=findViewById(R.id.developer_two);
-        developerTwo.setOnTouchListener(new View.OnTouchListener(){
+        });
+        dev2Profile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action=event.getAction();
-                int x=(int)event.getX();
-                int y=(int)event.getY();
-                int offsetX=0;
-                int offsetY=0;
-                switch (action){
-                    case MotionEvent.ACTION_DOWN:
-                        startTop=v.getTop();
-                        startLeft=v.getLeft();
-                        startRight=v.getRight();
-                        startBottom=v.getBottom();
-                        preX=x;
-                        preY=y;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        offsetX=x-preX;
-                        offsetY=y-preY;
-                        if(Math.abs(offsetX)>40)
-                            offsetX=offsetX>0?40:-40;
-                        if(Math.abs(offsetY)>40)
-                            offsetY=offsetY>0?40:-40;
-                        v.layout(startLeft+offsetX,startTop+offsetY,startRight+offsetX,startBottom+offsetY);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.layout(startLeft,startTop,startRight,startBottom);
-                        break;
-                }
-                return true;
-            }});
+            public void onClick(View v) {
+                devDetailFragment=new DevelopersDetailFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .addSharedElement(dev1Profile, "dev1_profile_s")
+                        .addSharedElement(dev2Profile,"dev2_profile_s")
+                        .replace(R.id.dev_container, devDetailFragment)
+                        .addToBackStack("enter")
+                        .commit();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        getSupportFragmentManager().popBackStack();
+        super.onBackPressed();
     }
 }
