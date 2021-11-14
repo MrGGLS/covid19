@@ -8,16 +8,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class UserDataBase {
-    public static final String tableName = "users";
-    public static final String id = "_id";
-    public static final String name = "user_name";
-    public static final String status = "user_status";
-    public static final String password = "password";
+    public static final String TABLE_NAME = "users";
+    public static final String ID = "id"; /* primary key */
+    public static final String USER_NAME = "user_name";
+    public static final String USER_STATUS = "user_status";
+    public static final String PASSWORD = "password";
 
+    // login user
     private User currentUser;
 
 
-    // 数据库查找用户
+    /**
+     * query user information from database
+     *
+     * @param username username
+     * @return result of query, could more than one
+     * @throws SQLException
+     */
     public ArrayList<User> getUser(String username) throws SQLException {
         Connection con = MySQLConnection.getConnection();
         if (con == null) {
@@ -25,8 +32,8 @@ public class UserDataBase {
         }
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(
-                "SELECT * FROM " + tableName
-                        + "WHERE " + name + " = " + "'" + username + "'"
+                "SELECT * FROM " + TABLE_NAME
+                        + "WHERE " + USER_NAME + " = " + "'" + username + "'"
                         + ";"
         );
 
@@ -34,10 +41,10 @@ public class UserDataBase {
         while (resultSet.next()) {
             User cur = new User();
             try {
-                cur.setId(resultSet.getLong(UserDataBase.id));
-                cur.setName(resultSet.getString(UserDataBase.name));
-                cur.setStatusWithString(resultSet.getString(UserDataBase.status));
-                cur.setPassword(resultSet.getString(UserDataBase.password));
+                cur.setId(resultSet.getInt(UserDataBase.ID));
+                cur.setName(resultSet.getString(UserDataBase.USER_NAME));
+                cur.setStatusWithString(resultSet.getString(UserDataBase.USER_STATUS));
+                cur.setPassword(resultSet.getString(UserDataBase.PASSWORD));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -47,7 +54,15 @@ public class UserDataBase {
         return ret;
     }
 
-    // 比对用户名和密码与数据库信息是否一致
+    /**
+     * compare input password and real password to check if it is the same inorder to
+     * identify the user
+     *
+     * @param username input username
+     * @param password input password
+     * @return whether login is successful
+     * @throws SQLException
+     */
     public Boolean userLogin(String username, String password) throws SQLException {
         ArrayList<User> users = getUser(username);
         for (User user : users) {
@@ -70,8 +85,9 @@ public class UserDataBase {
         }
         Statement statement = con.createStatement();
         statement.execute(
-                "INSERT INTO " + tableName
-                        + "VALUES ('" + newUser.getName() + "', "
+                "INSERT INTO " + TABLE_NAME
+                        + "VALUES (" + "null, "
+                        + "'" + newUser.getName() + "', "
                         + "'" + newUser.getStatus().toString() + "', "
                         + "'" + newUser.getPassword() + "'"
                         + ");"
@@ -83,5 +99,17 @@ public class UserDataBase {
         User newUser = new User(username, password);
         addUser(newUser);
         this.currentUser = newUser;
+    }
+
+    public String getName() {
+        return currentUser.getName();
+    }
+
+    public Status getStatus() {
+        return currentUser.getStatus();
+    }
+
+    public void setStatus(Status status) {
+        currentUser.setStatus(status);
     }
 }
