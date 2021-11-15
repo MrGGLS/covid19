@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Method;
@@ -22,36 +23,37 @@ public class MainActivity extends AppCompatActivity {
     CardView toQr;
     CardView toEPMap;
     CardView toGuide;
-    boolean isOpen=false;
+    boolean isOpen = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         seeMore = findViewById(R.id.see_more);
 
-        toQr=findViewById(R.id.to_qr);
+        toQr = findViewById(R.id.to_qr);
         toQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,QRCodeActivity.class);
+                Intent intent = new Intent(MainActivity.this, QRCodeActivity.class);
                 showPopUpMenu(seeMore);
                 startActivity(intent);
             }
         });
-        toEPMap=findViewById(R.id.to_ep_map);
+        toEPMap = findViewById(R.id.to_ep_map);
         toEPMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,EPMapActivity.class);
+                Intent intent = new Intent(MainActivity.this, EPMapActivity.class);
                 showPopUpMenu(seeMore);
                 startActivity(intent);
             }
         });
-        toGuide=findViewById(R.id.to_guide);
+        toGuide = findViewById(R.id.to_guide);
         toGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,GuideActivity.class);
+                Intent intent = new Intent(MainActivity.this, GuideActivity.class);
                 showPopUpMenu(seeMore);
                 startActivity(intent);
             }
@@ -65,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void showPopUpMenu(View v){
-        if(!isOpen){
+    public void showPopUpMenu(View v) {
+        if (!isOpen) {
             toQr.setVisibility(View.VISIBLE);
             toEPMap.setVisibility(View.VISIBLE);
             toGuide.setVisibility(View.VISIBLE);
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             toQr.animate().translationY(-getResources().getDimension(R.dimen.dp_300)).translationX(-getResources().getDimension(R.dimen.dp_50)).alpha(1f);
             toEPMap.animate().translationY(-getResources().getDimension(R.dimen.dp_200)).translationX(-getResources().getDimension(R.dimen.dp_50)).alpha(1f);
             toGuide.animate().translationY(-getResources().getDimension(R.dimen.dp_100)).translationX(-getResources().getDimension(R.dimen.dp_50)).alpha(1f);
-        }else{
+        } else {
             seeMore.animate().rotation(0);
             toQr.animate().translationY(0).translationX(0).alpha(0f);
             toEPMap.animate().translationY(0).translationX(0).alpha(0f);
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 //            toEPMap.setVisibility(View.INVISIBLE);
 //            toGuide.setVisibility(View.INVISIBLE);
         }
-        isOpen=!isOpen;
+        isOpen = !isOpen;
     }
 
     public void sendMessage(View view) {
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0,1,0,"about developers")
+        menu.add(0, 1, 0, "about developers")
                 .setIcon(R.drawable.developer_menu_icon)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         return true;
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        if(menu!=null){
+        if (menu != null) {
             if (menu.getClass().getSimpleName().equalsIgnoreCase("MenuBuilder")) {
                 try {
                     Method method = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent=new Intent(MainActivity.this,AboutDevelopers.class);
+        Intent intent = new Intent(MainActivity.this, AboutDevelopers.class);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
