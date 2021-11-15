@@ -1,5 +1,6 @@
 package com.ggls.covid19.data;
 
+import com.ggls.covid19.UserDataBase;
 import com.ggls.covid19.data.model.LoggedInUser;
 
 import java.io.IOException;
@@ -13,11 +14,25 @@ public class LoginDataSource {
 
         try {
             // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
-            return new Result.Success<>(fakeUser);
+            UserDataBase userDataBase = new UserDataBase();
+
+            if (userDataBase.userLogin()) {
+                LoggedInUser loggedInUser =
+                        new LoggedInUser(
+                                java.util.UUID.randomUUID().toString(),
+                                username
+                        );
+                return new Result.Success<>(loggedInUser);
+            } else {
+                return null;
+            }
+
+            //
+//            LoggedInUser fakeUser =
+//                    new LoggedInUser(
+//                            java.util.UUID.randomUUID().toString(),
+//                            "Jane Doe");
+//            return new Result.Success<>(fakeUser);
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));
         }

@@ -14,11 +14,12 @@ public class MySQLConnection {
     private static MySQLConnection connection = null;
 
     private MySQLConnection() throws Exception {
-        driver = "com.mysql.jdbc.Driver";
+        driver = "com.mysql.cj.jdbc.Driver";
         dbURL = "jdbc:mysql://" +
                 "rm-2vccl279itesf75k33o.mysql.cn-chengdu.rds.aliyuncs.com:3306" +
-                "/android_app_db";
-        user = "covid_19_users";
+                "/covid_19_users?" +
+                "allowPublicKeyRetrieval=true";
+        user = "android_app_db";
         password = "covid_19";
     }
 
