@@ -1,6 +1,8 @@
 package com.ggls.covid19;
 
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +15,8 @@ public class UserDataBase {
     public static final String USER_NAME = "user_name";
     public static final String USER_STATUS = "user_status";
     public static final String PASSWORD = "password";
+
+    private static final String TAG = "database_test";
 
     // login user
     private User currentUser;
@@ -59,23 +63,11 @@ public class UserDataBase {
     /**
      * compare input password and real password to check if it is the same inorder to
      * identify the user
-     *
-     * @throws SQLException
      */
     public Boolean userLogin() throws InterruptedException {
-//        ArrayList<User> users = getUser(username);
-//        for (User user : users) {
-//            if (user.getPassword().equals(password)) {
-//                // 密码验证正确，登陆成功
-//                this.currentUser = user;
-//                return true;
-//            }
-//        }
-//        currentUser = null;
-//        return false;
         LoginThread loginThread = new LoginThread();
         loginThread.start();
-        loginThread.join();
+//        loginThread.join();
         return currentUser != null;
     }
 
@@ -124,42 +116,53 @@ public class UserDataBase {
     class LoginThread extends Thread {
         @Override
         public void run() {
-            try {
-                Connection con = MySQLConnection.getConnection();
-                if (con == null) {
-                    throw new SQLException();
-                }
-                Statement statement = con.createStatement();
-                ResultSet resultSet = statement.executeQuery(
-                        "SELECT * FROM " + TABLE_NAME
-                                + "WHERE " + USER_NAME + " = " + "'" + loginUserName + "'"
-                                + ";"
-                );
+//            while (!this.isInterrupted()) {
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    Log.e(TAG, "interrupt");
+//                }
 
-                ArrayList<User> users = new ArrayList<>();
-                while (resultSet.next()) {
-                    User cur = new User();
-                    try {
-                        cur.setId(resultSet.getInt(UserDataBase.ID));
-                        cur.setName(resultSet.getString(UserDataBase.USER_NAME));
-                        cur.setStatusWithString(resultSet.getString(UserDataBase.USER_STATUS));
-                        cur.setPassword(resultSet.getString(UserDataBase.PASSWORD));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                try {
+                    Connection con = MySQLConnection.getConnection();
+                    if (con == null) {
+                        throw new SQLException();
                     }
-                    users.add(cur);
-                }
-                for (User user : users) {
-                    if (user.getPassword().equals(loginPassword)) {
-                        // 密码验证正确，登陆成功
-                        currentUser = user;
-                        return;
+//                    Log.i(TAG, "数据库连接成功");
+                    Statement statement = con.createStatement();
+                    ResultSet resultSet = statement.executeQuery(
+                            "SELECT * FROM " + TABLE_NAME
+                                    + "WHERE " + USER_NAME + " = " + "'" + loginUserName + "'"
+                                    + ";"
+                    );
+
+                    ArrayList<User> users = new ArrayList<>();
+                    while (resultSet.next()) {
+                        User cur = new User();
+                        try {
+                            cur.setId(resultSet.getInt(UserDataBase.ID));
+                            cur.setName(resultSet.getString(UserDataBase.USER_NAME));
+                            cur.setStatusWithString(resultSet.getString(UserDataBase.USER_STATUS));
+                            cur.setPassword(resultSet.getString(UserDataBase.PASSWORD));
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        users.add(cur);
                     }
+                    for (User user : users) {
+                        if (user.getPassword().equals(loginPassword)) {
+                            // 密码验证正确，登陆成功
+                            currentUser = user;
+//                            Log.i("database", "成功获取用户");
+                            return;
+                        }
+                    }
+//                    Log.i("database", "database: error");
+                    currentUser = null;
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                currentUser = null;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+//            }
         }
     }
 
