@@ -42,5 +42,32 @@ public class DevelopersBriefFragment extends Fragment {
         ViewCompat.setTransitionName(dev1Profile, "dev1_profile");
         ImageView dev2Profile = view.findViewById(R.id.dev2_profile);
         ViewCompat.setTransitionName(dev2Profile, "dev2_profile");
+        dev1Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DevelopersDetailFragment developersDetailFragment=new DevelopersDetailFragment();
+                getFragmentManager()
+                        .beginTransaction()
+                        .addSharedElement(dev1Profile, ViewCompat.getTransitionName(dev1Profile))
+                        .addSharedElement(dev2Profile, ViewCompat.getTransitionName(dev2Profile))
+                        .addToBackStack(TipBriefFragment.class.getSimpleName())
+                        .replace(R.id.dev_container,developersDetailFragment)
+                        .commit();
+            }
+        });
+        dev2Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DevelopersDetailFragment developersDetailFragment=new DevelopersDetailFragment();
+                getFragmentManager()
+                        .beginTransaction()
+                        .addSharedElement(dev1Profile, ViewCompat.getTransitionName(dev1Profile))
+                        .addSharedElement(dev2Profile, ViewCompat.getTransitionName(dev2Profile))
+                        .addToBackStack(TipBriefFragment.class.getSimpleName())
+                        .replace(R.id.dev_container,developersDetailFragment)
+                        .commit();
+            }
+        });
+
     }
 }

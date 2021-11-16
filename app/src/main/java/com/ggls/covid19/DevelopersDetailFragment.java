@@ -48,9 +48,9 @@ public class DevelopersDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         ImageView dev1ProfileS = view.findViewById(R.id.dev1_profile_s);
-        ViewCompat.setTransitionName(dev1ProfileS, "dev1_profile_s");
+        ViewCompat.setTransitionName(dev1ProfileS, "dev1_profile");
         ImageView dev2ProfileS = view.findViewById(R.id.dev2_profile_s);
-        ViewCompat.setTransitionName(dev2ProfileS, "dev2_profile_s");
+        ViewCompat.setTransitionName(dev2ProfileS, "dev2_profile");
 
         developerOne=getActivity().findViewById(R.id.developer_one);
         developerOne.setOnTouchListener(new View.OnTouchListener(){
