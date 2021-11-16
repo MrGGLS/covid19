@@ -1,2 +1,2 @@
-# covid19
+# covid-19 helper App介绍
 The first thing you should do is to give up Java...
