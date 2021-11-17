@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Method;
@@ -132,13 +134,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 2:
-                intent = new Intent(MainActivity.this, OriginalActivity.class);
-                startActivity(intent);
-                finish();
+                MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(MainActivity.this);
+                dialogBuilder.setTitle(getResources().getString(R.string.logout_title))
+                        .setMessage(getResources().getString(R.string.logout_text))
+                        .setNegativeButton(getResources().getString(R.string.logout_cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setPositiveButton(getResources().getString(R.string.logout_accept), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                backToOriginalActivity();
+                            }
+                        }).show();
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void backToOriginalActivity(){
+        Intent intent = new Intent(MainActivity.this, OriginalActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
