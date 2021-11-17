@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         menu.add(0, 1, 0, "about developers")
                 .setIcon(R.drawable.developer_menu_icon)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        menu.add(0,2,1,"log out")
+                .setIcon(R.drawable.logout_menu_icon)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         return true;
     }
 
@@ -122,8 +125,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = new Intent(MainActivity.this, AboutDevelopers.class);
-        startActivity(intent);
+        Intent intent;
+        switch (item.getItemId()){
+            case 1:
+                intent = new Intent(MainActivity.this, AboutDevelopers.class);
+                startActivity(intent);
+                break;
+            case 2:
+                intent = new Intent(MainActivity.this, OriginalActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
