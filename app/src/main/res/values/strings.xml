@@ -13,7 +13,7 @@
     <string name="to_qr_activity_info">查看和扫描个人疫情防控码</string>
     <string name="to_ep_map_activity_info">查看个人行踪记录图和疫情趋势</string>
     <string name="to_guide_activity_info">查看相关疫情小贴士</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- Sign in -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">登陆</string>
     <string name="prompt_email">用户名</string>
@@ -24,6 +24,9 @@
     <string name="invalid_username">非法用户名</string>
     <string name="invalid_password">密码必须大于5位字符</string>
     <string name="login_failed">"登陆失败"</string>
+    <!-- Sign up   -->
+    <string name="title_activity_sign_up">注册</string>
+    <string name="action_sign_up">注册</string>
     <!-- OriginalActivity   -->
     <string name="big_title">疫情小助手</string>
     <string name="sign_in_button">登陆</string>
@@ -113,4 +116,5 @@
 在室内时打开窗户，增加室内自然通风量。\n
 世卫组织已经为一般公众和管理公共空间和建筑物的人们发布关于通风和空气调节的问答。
     </string>
+
 </resources>

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.ggls.covid19.ui.login.LoginActivity;
+import com.ggls.covid19.ui.login.SignUpActivity;
 
 import java.sql.Connection;
 
@@ -26,7 +27,7 @@ public class OriginalActivity extends AppCompatActivity {
             startActivity(intent);
         });
         sign_up_bt.setOnClickListener(v -> {
-            Intent intent = new Intent(OriginalActivity.this, MainActivity.class);
+            Intent intent = new Intent(OriginalActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
     }
