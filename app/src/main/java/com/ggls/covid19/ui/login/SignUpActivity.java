@@ -120,8 +120,10 @@ public class SignUpActivity extends AppCompatActivity {
             loadingProgressBar.setVisibility(View.VISIBLE);
             loginViewModel.signup(usernameEditText.getText().toString(),
                     passwordEditText.getText().toString());
-            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-            startActivity(intent);
+            if (loginViewModel.isSuccess()) {
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
     }
 

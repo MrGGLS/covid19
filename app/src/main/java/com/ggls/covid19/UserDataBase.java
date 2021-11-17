@@ -99,61 +99,53 @@ public class UserDataBase {
     class LoginThread extends Thread {
         @Override
         public void run() {
-            while (!this.isInterrupted()) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    Log.e(TAG, "interrupt");
+            try {
+                Connection con = MySQLConnection.getConnection();
+                if (con == null) {
+                    throw new SQLException();
                 }
-
-                try {
-                    Connection con = MySQLConnection.getConnection();
-                    if (con == null) {
-                        throw new SQLException();
+                Log.i(TAG, "数据库连接成功");
+                Statement statement = con.createStatement();
+                ResultSet resultSet = statement.executeQuery(
+                        "SELECT * FROM "
+                                + UserDataBase.TABLE_NAME
+                                + " WHERE "
+                                + UserDataBase.USER_NAME
+                                + " = "
+                                + "'"
+                                + loginUserName
+                                + "'"
+                                + ";"
+                );
+                Log.i(TAG, "查询完成");
+                ArrayList<User> users = new ArrayList<>();
+                while (resultSet.next()) {
+                    User cur = new User();
+                    try {
+                        cur.setId(resultSet.getInt(UserDataBase.ID));
+                        cur.setName(resultSet.getString(UserDataBase.USER_NAME));
+                        cur.setStatusWithString(resultSet.getString(UserDataBase.USER_STATUS));
+                        cur.setPassword(resultSet.getString(UserDataBase.PASSWORD));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                    Log.i(TAG, "数据库连接成功");
-                    Statement statement = con.createStatement();
-                    ResultSet resultSet = statement.executeQuery(
-                            "SELECT * FROM "
-                                    + UserDataBase.TABLE_NAME
-                                    + " WHERE "
-                                    + UserDataBase.USER_NAME
-                                    + " = "
-                                    + "'"
-                                    + loginUserName
-                                    + "'"
-                                    + ";"
-                    );
-                    Log.i(TAG, "查询完成");
-                    ArrayList<User> users = new ArrayList<>();
-                    while (resultSet.next()) {
-                        User cur = new User();
-                        try {
-                            cur.setId(resultSet.getInt(UserDataBase.ID));
-                            cur.setName(resultSet.getString(UserDataBase.USER_NAME));
-                            cur.setStatusWithString(resultSet.getString(UserDataBase.USER_STATUS));
-                            cur.setPassword(resultSet.getString(UserDataBase.PASSWORD));
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                        users.add(cur);
-                    }
-                    for (User user : users) {
-                        Log.i("database", "user： " + user.getName());
-                        Log.i(TAG, "password: " + user.getPassword());
-                        Log.i(TAG, "login password: " + loginPassword);
-                        if (user.getPassword().equals(loginPassword)) {
-                            // 密码验证正确，登陆成功
-                            currentUser = user;
-                            Log.i("database", "成功获取用户");
-                            return;
-                        }
-                    }
-                    Log.i("database", "database: error");
-                    currentUser = null;
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    users.add(cur);
                 }
+                for (User user : users) {
+                    Log.i("database", "user： " + user.getName());
+                    Log.i(TAG, "password: " + user.getPassword());
+                    Log.i(TAG, "login password: " + loginPassword);
+                    if (user.getPassword().equals(loginPassword)) {
+                        // 密码验证正确，登陆成功
+                        currentUser = user;
+                        Log.i("database", "成功获取用户");
+                        return;
+                    }
+                }
+                Log.i("database", "database: error");
+                currentUser = null;
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -161,44 +153,34 @@ public class UserDataBase {
     class SignUpThread extends Thread {
         @Override
         public void run() {
-            while (!this.isInterrupted()) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    Log.e(TAG, "interrupt");
+            try {
+                Connection con = MySQLConnection.getConnection();
+                if (con == null) {
+                    throw new SQLException();
                 }
+                Log.i(TAG, "数据库连接成功");
+                Statement statement = con.createStatement();
+                statement.execute(
+                        "INSERT INTO "
+                                + UserDataBase.TABLE_NAME
+                                + " VALUES( "
+                                + "null, "
+                                + "'"
+                                + loginUserName
+                                + "', "
+                                + "'Green', "
+                                + "'"
+                                + loginPassword
+                                + "'"
+                                + ");"
+                );
+                Log.i(TAG, "插入完成");
 
-                try {
-                    Connection con = MySQLConnection.getConnection();
-                    if (con == null) {
-                        throw new SQLException();
-                    }
-                    Log.i(TAG, "数据库连接成功");
-                    Statement statement = con.createStatement();
-                    statement.execute(
-                            "INSERT INTO "
-                                    + UserDataBase.TABLE_NAME
-                                    + " VALUES( "
-                                    + "null, "
-                                    + "'"
-                                    + loginUserName
-                                    + "', "
-                                    + "'Green', "
-                                    + "'"
-                                    + loginPassword
-                                    + "'"
-                                    + ");"
-                    );
-                    Log.i(TAG, "插入完成");
-
-                    currentUser = new User(loginUserName, loginPassword);
-                    return;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                currentUser = new User(loginUserName, loginPassword);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
-
     }
 
 }
