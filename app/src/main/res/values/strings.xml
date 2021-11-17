@@ -116,5 +116,9 @@
 在室内时打开窗户，增加室内自然通风量。\n
 世卫组织已经为一般公众和管理公共空间和建筑物的人们发布关于通风和空气调节的问答。
     </string>
+    <string name="logout_title">确定退出登录吗？</string>
+    <string name="logout_text">之后您需要重新登录或注册才能使用本应用</string>
+    <string name="logout_cancel">我再想想</string>
+    <string name="logout_accept">确定退出</string>
 
 </resources>
