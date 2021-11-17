@@ -2,21 +2,23 @@ package com.ggls.covid19;
 
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LongSummaryStatistics;
 
 public class UserDataBase {
     public static final String TABLE_NAME = "users";
     public static final String ID = "id"; /* primary key */
     public static final String USER_NAME = "user_name";
-    public static final String USER_STATUS = "user_status";
+    public static final String USER_STATUS = "status";
     public static final String PASSWORD = "password";
 
-    private static final String TAG = "database_test";
+    private static final String TAG = "database";
 
     // login user
     private User currentUser;
@@ -67,7 +69,7 @@ public class UserDataBase {
     public Boolean userLogin() throws InterruptedException {
         LoginThread loginThread = new LoginThread();
         loginThread.start();
-//        loginThread.join();
+        loginThread.join();
         return currentUser != null;
     }
 
@@ -116,26 +118,24 @@ public class UserDataBase {
     class LoginThread extends Thread {
         @Override
         public void run() {
-//            while (!this.isInterrupted()) {
-//                try {
-//                    Thread.sleep(100);
-//                } catch (InterruptedException e) {
-//                    Log.e(TAG, "interrupt");
-//                }
+            while (!this.isInterrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Log.e(TAG, "interrupt");
+                }
 
                 try {
                     Connection con = MySQLConnection.getConnection();
                     if (con == null) {
                         throw new SQLException();
                     }
-//                    Log.i(TAG, "数据库连接成功");
+                    Log.i(TAG, "数据库连接成功");
                     Statement statement = con.createStatement();
                     ResultSet resultSet = statement.executeQuery(
-                            "SELECT * FROM " + TABLE_NAME
-                                    + "WHERE " + USER_NAME + " = " + "'" + loginUserName + "'"
-                                    + ";"
+                            "SELECT * FROM users;"
                     );
-
+                    Log.i(TAG, "查询完成");
                     ArrayList<User> users = new ArrayList<>();
                     while (resultSet.next()) {
                         User cur = new User();
@@ -150,19 +150,22 @@ public class UserDataBase {
                         users.add(cur);
                     }
                     for (User user : users) {
+                        Log.i("database", "user： "  + user.getName());
+                        Log.i(TAG, "password: " + user.getPassword());
+                        Log.i(TAG, "login password: " + loginPassword);
                         if (user.getPassword().equals(loginPassword)) {
                             // 密码验证正确，登陆成功
                             currentUser = user;
-//                            Log.i("database", "成功获取用户");
+                            Log.i("database", "成功获取用户");
                             return;
                         }
                     }
-//                    Log.i("database", "database: error");
+                    Log.i("database", "database: error");
                     currentUser = null;
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-//            }
+            }
         }
     }
 

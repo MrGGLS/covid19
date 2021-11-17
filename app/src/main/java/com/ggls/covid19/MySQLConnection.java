@@ -13,8 +13,8 @@ public class MySQLConnection {
     private String password;
     private static MySQLConnection connection = null;
 
-    private MySQLConnection() throws Exception {
-        driver = "com.mysql.cj.jdbc.Driver";
+    private MySQLConnection() {
+        driver = "com.mysql.jdbc.Driver";
         dbURL = "jdbc:mysql://" +
                 "rm-2vccl279itesf75k33o.mysql.cn-chengdu.rds.aliyuncs.com:3306" +
                 "/covid_19_users?" +
@@ -25,14 +25,13 @@ public class MySQLConnection {
 
     public static Connection getConnection() {
         Connection con = null;
-        if (con == null) {
-            try {
-                connection = new MySQLConnection();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
+        try {
+            connection = new MySQLConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
+
         try {
             Class.forName(connection.driver);
             con = DriverManager.getConnection(connection.dbURL, connection.user, connection.password);

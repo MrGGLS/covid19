@@ -15,7 +15,7 @@ public class LoginDataSource {
         try {
             // TODO: handle loggedInUser authentication
             UserDataBase userDataBase = new UserDataBase();
-
+            userDataBase.preLogin(username, password);
             if (userDataBase.userLogin()) {
                 LoggedInUser loggedInUser =
                         new LoggedInUser(
