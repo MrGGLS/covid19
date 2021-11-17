@@ -22,11 +22,11 @@ public class OriginalActivity extends AppCompatActivity {
         Button sign_in_bt = findViewById(R.id.sign_in_button);
         Button sign_up_bt = findViewById(R.id.sign_up_button);
         sign_in_bt.setOnClickListener(v -> {
-            Intent intent = new Intent(OriginalActivity.this, MainActivity.class);
+            Intent intent = new Intent(OriginalActivity.this, LoginActivity.class);
             startActivity(intent);
         });
         sign_up_bt.setOnClickListener(v -> {
-            Intent intent = new Intent(OriginalActivity.this, LoginActivity.class);
+            Intent intent = new Intent(OriginalActivity.this, MainActivity.class);
             startActivity(intent);
         });
     }
