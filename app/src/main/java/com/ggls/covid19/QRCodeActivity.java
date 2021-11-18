@@ -147,7 +147,6 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
         mLocationOption.setLocationCacheEnable(false);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
-        mLocationClient.startLocation();
     }
 
     @Override
@@ -247,9 +246,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (null != mLocationClient) {
-            mLocationClient.onDestroy();
-        }
+        mLocationClient.onDestroy();
     }
 
     //  启动定位
