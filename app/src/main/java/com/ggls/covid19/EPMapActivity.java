@@ -37,26 +37,23 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 
 import java.util.ArrayList;
 
+import kotlin.collections.MapsKt;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class EPMapActivity extends AppCompatActivity implements AMapLocationListener, LocationSource, AMap.OnMapClickListener, GeocodeSearch.OnGeocodeSearchListener {
+public class EPMapActivity extends AppCompatActivity implements AMapLocationListener, LocationSource, AMap.OnMapClickListener{
     private static final String TAG = "EPMapActivity";
     private static final int REQUEST_PERMISSIONS = 7777;
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
+    //解析成功标识码
+    private static final int PARSE_SUCCESS_CODE = 1000;
     MapView mapView;
     private AMap aMap;
     private LocationSource.OnLocationChangedListener mListener;
     private MyLocationStyle myLocationStyle=new MyLocationStyle();
-//  地理编码搜索
-    private GeocodeSearch geocodeSearch;
-    //解析成功标识码
-    private static final int PARSE_SUCCESS_CODE = 1000;
-    //行踪表
-    private ArrayList<String>journeyList=new ArrayList<>();
-    private ArrayList<LatLng>latLngList=new ArrayList<>();
+    private TravelMapDataBase tmd=new TravelMapDataBase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,32 +78,12 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         aMap.setMyLocationStyle(myLocationStyle);
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setOnMapClickListener(this);
-        try {
-            geocodeSearch=new GeocodeSearch(this);
-            geocodeSearch.setOnGeocodeSearchListener(this);
-        } catch (AMapException e) {
-            e.printStackTrace();
-        }
         // 设置定位监听
         aMap.setLocationSource(this);
         // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationEnabled(true);
-        LatLng l1=new LatLng(34,108);
-        LatLng l2=new LatLng(35,109);
-        LatLng l3=new LatLng(36,110);
-        LatLng l4=new LatLng(37,111);
-        latLngList.add(l1);
-        latLngList.add(l2);
-        latLngList.add(l3);
-        latLngList.add(l4);
-        journeyList.add("北京");
-        journeyList.add("上海");
-        journeyList.add("深圳");
-        journeyList.add("广州");
-        for (int i = 0; i < 4; i++) {
-            latlonToAddress(latLngList.get(i));
-        }
-        addMarkers(latLngList,journeyList);
+        addMarkers(tmd.getStatusList());
+
     }
 
     private void initLocation() {
@@ -243,17 +220,8 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
 
     @Override
     public void onMapClick(LatLng latLng) {
-        latlonToAddress(latLng);
-        aMap.addMarker(new MarkerOptions().position(latLng).snippet("DefaultMarker"));
-    }
-
-    private void latlonToAddress(LatLng latLng) {
-        //位置点  通过经纬度进行构建
-        LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
-        //逆编码查询  第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 20, GeocodeSearch.AMAP);
-        //异步获取地址信息
-        geocodeSearch.getFromLocationAsyn(query);
+//        latlonToAddress(latLng);
+//        aMap.addMarker(new MarkerOptions().position(latLng).snippet("DefaultMarker"));
     }
 
     public static Bitmap convertViewToBitmap(View view) {
@@ -264,27 +232,33 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         return bitmap;
     }
 
-    private void addMarkers(ArrayList<LatLng> latLngList,ArrayList<String>journeyList) {
+    private void addMarkers(ArrayList<TravelMapDataBase.MapDBItem>statuses) {
         //添加标点
-        ImageView locationPoint=findViewById(R.id.location_danger);
-        for(int i=0;i<latLngList.toArray().length;++i)
-            aMap.addMarker(new MarkerOptions().position(latLngList.get(i)).snippet(journeyList.get(i)).icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(locationPoint))));
-    }
-
-    @Override
-    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
-            //解析result获取地址描述信息
-        if(i == PARSE_SUCCESS_CODE){
-            RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
-            //显示解析后的地址
-            showMsg("地址: "+regeocodeAddress.getFormatAddress());
-        }else {
-            showMsg("获取地址失败");
+        ImageView safeLocation=findViewById(R.id.location_great);
+        ImageView unsafeLocation=findViewById(R.id.location_unsafe_card);
+        ImageView dangerLocation=findViewById(R.id.location_danger);
+        for (TravelMapDataBase.MapDBItem status: statuses) {
+            switch (status.status){
+                case GREEN:
+                    aMap.addMarker(new MarkerOptions().
+                            position(new LatLng(status.latitude,status.longitude))
+                            .snippet(status.province+"省"+status.city+"市")
+                            .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(safeLocation))));
+                    break;
+                case YELLOW:
+                    aMap.addMarker(new MarkerOptions().
+                            position(new LatLng(status.latitude,status.longitude))
+                            .snippet(status.province+"省"+status.city+"市")
+                            .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(unsafeLocation))));
+                    break;
+                case RED:
+                    aMap.addMarker(new MarkerOptions().
+                            position(new LatLng(status.latitude,status.longitude))
+                            .snippet(status.province+"省"+status.city+"市")
+                            .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(dangerLocation))));
+                    break;
+            }
         }
     }
 
-    @Override
-    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
-
-    }
 }

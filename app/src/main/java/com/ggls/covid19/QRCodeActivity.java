@@ -147,16 +147,16 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                 longitude = aMapLocation.getLongitude();
                 showMsg("当前地理位置是：" + address);
 //                只获取一次定位信息，后面的语句可以去掉
-                mLocationClient.stopLocation();
+//                mLocationClient.stopLocation();
 //              上传地理信息到数据库
-                final String[] splitAddress = address.split("省|市");
-                tmb.addLocation(new TravelMap("0", splitAddress[0], splitAddress[1], latitude, longitude));
-//                生成二维码
-                try {
-                    generateCodeAndCard();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                final String[] splitAddress = address.split("省|市");
+//                tmb.addLocation(new TravelMap("0", splitAddress[0], splitAddress[1], latitude, longitude));
+////                生成二维码
+//                try {
+//                    generateCodeAndCard();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 if (mListener != null) {
                     mListener.onLocationChanged(aMapLocation);
                 }
