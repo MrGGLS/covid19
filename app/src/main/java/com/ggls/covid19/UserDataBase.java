@@ -164,10 +164,10 @@ public class UserDataBase {
                                 + "'"
                                 + loginUserName
                                 + "', "
-                                + "'Green', "
                                 + "'"
                                 + loginPassword
-                                + "'"
+                                + "', "
+                                + "'Green'"
                                 + ");"
                 );
                 Log.i(TAG, "插入完成");
