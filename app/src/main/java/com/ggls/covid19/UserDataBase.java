@@ -19,7 +19,7 @@ public class UserDataBase {
     private static final String TAG = "database";
 
     // login user
-    private User currentUser;
+    public static User currentUser;
     private String loginUserName;
     private String loginPassword;
 

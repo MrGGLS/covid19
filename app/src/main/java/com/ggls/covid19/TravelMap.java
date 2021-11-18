@@ -2,7 +2,7 @@ package com.ggls.covid19;
 
 
 public class TravelMap {
-    private int id;
+    private String user_name;
     private String province;
     private String city;
     private double latitude;
@@ -11,20 +11,20 @@ public class TravelMap {
     public TravelMap() {
     }
 
-    public TravelMap(int id, String province, String city, double latitude, double longitude) {
-        this.id = id;
+    public TravelMap(String user_name, String province, String city, double latitude, double longitude) {
+        this.user_name = user_name;
         this.province = province;
         this.city = city;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public int getId() {
-        return id;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
     public String getProvince() {
@@ -43,5 +43,19 @@ public class TravelMap {
         this.city = city;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

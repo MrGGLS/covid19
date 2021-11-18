@@ -10,42 +10,38 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TravelMapDataBase {
-    private static final Map<String, String> map = new HashMap<String, String>() {{
-        put("黑龙江", "Yellow");
-        put("辽宁", "Yellow");
-        put("云南", "Yellow");
-        put("台湾", "Red");
-        put("陕西", "Green");
-        put("广东", "Green");
-        // TODO more province is needed here
-    }};
-
-
-
     private static final String TABLE_NAME = "travel_map";
     private static final String ID = "id";
+    private static final String USER_NAME = "user_name";
     private static final String PROVINCE = "province";
     private static final String CITY = "city";
+    private static final String LATITUDE = "latitude";
+    private static final String LONGITUDE = "longitude";
 
     private static final String TAG = "MAP_DB";
 
-    private int user_id;
-
-    public void setUserID(int id) {
-        user_id = id;
+    class MapDBItem {
+        public String province;
+        public String city;
+        public double latitude;
+        public double longitude;
+        public String status;
     }
+
+    private static MapDBItem[] msg;
+
+
 
     public void addLocation(TravelMap travelMap) {
 
     }
 
-    public Status getStatus() {
-        return null;
+    public MapDBItem[] getStatusList() {
+        return msg;
     }
 
 
-
-    class MapThread extends Thread {
+    class GetStatusListThread extends Thread {
         @Override
         public void run() {
             try {
@@ -57,12 +53,43 @@ public class TravelMapDataBase {
                 Statement stat = conn.createStatement();
                 ResultSet res = stat.executeQuery(
                         "SELECT * FROM "
-                        + TravelMapDataBase.TABLE_NAME
-                        + "WHERE "
-                        + TravelMapDataBase.ID
-                        + " = "
-                        + user_id
-                        + ";"
+                                + TravelMapDataBase.TABLE_NAME
+                                + "WHERE "
+                                + TravelMapDataBase.USER_NAME
+                                + " = "
+                                + UserDataBase.currentUser.getName()
+                                + ";"
+                );
+                while (res.next()) {
+                    TravelMap map = new TravelMap(
+//                            res.getString()
+                    );
+                }
+
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class AddLocationThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                Connection conn = MySQLConnection.getConnection();
+                if (conn == null) {
+                    throw new SQLException();
+                }
+                Log.i(TAG, "数据库连接成功");
+                Statement stat = conn.createStatement();
+                ResultSet res = stat.executeQuery(
+                        "SELECT * FROM "
+                                + TravelMapDataBase.TABLE_NAME
+                                + "WHERE "
+                                + TravelMapDataBase.USER_NAME
+                                + " = "
+                                + UserDataBase.currentUser.getName()
+                                + ";"
                 );
                 while (res.next()) {
                     TravelMap map = new TravelMap(
@@ -76,5 +103,5 @@ public class TravelMapDataBase {
 
         }
     }
-
 }
+

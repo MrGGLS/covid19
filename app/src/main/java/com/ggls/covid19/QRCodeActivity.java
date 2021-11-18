@@ -37,7 +37,7 @@ import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class QRCodeActivity extends AppCompatActivity implements AMapLocationListener,LocationSource {
+public class QRCodeActivity extends AppCompatActivity implements AMapLocationListener, LocationSource {
     public static final int DEFAULT_VIEW = 0x22;
     private static final int REQUEST_CODE_SCAN = 0X01;
     private static final String TAG = "QRCodeActivity";
@@ -45,7 +45,8 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
     private LocationSource.OnLocationChangedListener mListener;
-    private TravelMapDataBase tmb=new TravelMapDataBase();
+    private TravelMapDataBase tmb = new TravelMapDataBase();
+    private UserDataBase udb = new UserDataBase();
     private String address;
     private Double latitude;
     private Double longitude;
@@ -55,9 +56,9 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode);
-        MapsInitializer.updatePrivacyAgree(this,true);
-        MapsInitializer.updatePrivacyShow(this,true,true);
-        Button scanButton=findViewById(R.id.tap_to_scan);
+        MapsInitializer.updatePrivacyAgree(this, true);
+        MapsInitializer.updatePrivacyShow(this, true, true);
+        Button scanButton = findViewById(R.id.tap_to_scan);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +103,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
             Object obj = data.getParcelableExtra(ScanUtil.RESULT);
             if (obj instanceof HmsScan) {
                 if (!TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
-                    resOriginal=((HmsScan) obj).getOriginalValue();
+                    resOriginal = ((HmsScan) obj).getOriginalValue();
                 }
                 return;
             }
@@ -144,15 +145,19 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                 address = aMapLocation.getAddress();
                 latitude = aMapLocation.getLatitude();
                 longitude = aMapLocation.getLongitude();
-                showMsg("当前地理位置是："+address);
+                showMsg("当前地理位置是：" + address);
 //                只获取一次定位信息，后面的语句可以去掉
                 mLocationClient.stopLocation();
 //              上传地理信息到数据库
                 final String[] splitAddress = address.split("省|市");
-                tmb.addLocation(new TravelMap(0,splitAddress[0],splitAddress[1],latitude, longitude));
+                tmb.addLocation(new TravelMap("0", splitAddress[0], splitAddress[1], latitude, longitude));
 //                生成二维码
-                generateCodeAndCard();
-                if(mListener!=null){
+                try {
+                    generateCodeAndCard();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (mListener != null) {
                     mListener.onLocationChanged(aMapLocation);
                 }
             } else {
@@ -163,20 +168,20 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
         }
     }
 
-    public void showMsg(String msg){
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    public void showMsg(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    public void generateCodeAndCard(){
+    public void generateCodeAndCard() throws InterruptedException {
         int type = HmsScan.QRCODE_SCAN_TYPE;
         int width = 750;
         int height = 750;
-        ImageView qrRes=findViewById(R.id.qr_res);
+        ImageView qrRes = findViewById(R.id.qr_res);
         Bitmap qrBitmap;
         HmsBuildBitmapOption codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
-        CardView qrTipCard=findViewById(R.id.qr_res_tip_card);
-        TextView qrTip=findViewById(R.id.qr_res_tip);
-        switch (tmb.getStatus()){
+        CardView qrTipCard = findViewById(R.id.qr_res_tip_card);
+        TextView qrTip = findViewById(R.id.qr_res_tip);
+        switch (udb.getStatus()) {
             case GREEN:
                 codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
                 try {
@@ -196,7 +201,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                 }
                 break;
             case RED:
-                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.rgb(0xF2,0xD9,0x0E)).setBitmapMargin(3).create();
+                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.rgb(0xF2, 0xD9, 0x0E)).setBitmapMargin(3).create();
                 try {
                     qrBitmap = ScanUtil.buildBitmap("You might be safe!", type, width, height, codeRes);
                     qrRes.setImageBitmap(qrBitmap);
@@ -207,7 +212,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
         }
 
         Toast.makeText(this, resOriginal, Toast.LENGTH_SHORT).show();
-        switch (codeRes.bimapColor){
+        switch (codeRes.bimapColor) {
             case Color.GREEN:
                 qrTip.setText("哎哟，不错哦。请继续保持~");
                 qrTip.setTextColor(Color.GREEN);
@@ -218,7 +223,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                 break;
             default:
                 qrTip.setText("我觉得你还是需要做一下核酸哦~");
-                qrTip.setTextColor(Color.rgb(0xF2,0xD9,0x0E));
+                qrTip.setTextColor(Color.rgb(0xF2, 0xD9, 0x0E));
                 break;
         }
         qrTipCard.setVisibility(View.VISIBLE);
@@ -229,11 +234,12 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(null != mLocationClient){
+        if (null != mLocationClient) {
             mLocationClient.onDestroy();
         }
     }
-//  启动定位
+
+    //  启动定位
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mListener = onLocationChangedListener;
@@ -242,7 +248,8 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
             mLocationClient.startLocation();//启动定位
         }
     }
-//    停止定位
+
+    //    停止定位
     @Override
     public void deactivate() {
         mListener = null;
