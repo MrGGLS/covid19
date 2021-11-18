@@ -82,7 +82,7 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         aMap.setLocationSource(this);
         // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationEnabled(true);
-        addMarkers(tmd.getStatusList());
+//        addMarkers(tmd.getStatusList());
 
     }
 
@@ -121,7 +121,7 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
 //                Double latitude = aMapLocation.getLatitude();
 //                Double longitude = aMapLocation.getLongitude();
 //                停止定位
-                mLocationClient.stopLocation();
+//                mLocationClient.stopLocation();
                 if(mListener!=null){
                     mListener.onLocationChanged(aMapLocation);
                 }
