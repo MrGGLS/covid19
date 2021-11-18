@@ -26,7 +26,15 @@ public class TravelMapDataBase {
         public String city;
         public double latitude;
         public double longitude;
-        public String status;
+        public Status status;
+
+        public MapDBItem(String province, String city, double latitude, double longitude, Status status) {
+            this.province = province;
+            this.city = city;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.status = status;
+        }
     }
 
     private static ArrayList<MapDBItem> msg;
@@ -89,9 +97,31 @@ public class TravelMapDataBase {
                                 + ";"
                 );
                 while (res.next()) {
-                    TravelMap map = new TravelMap(
-//                            res.getString()
+                    ResultSet status = stat.executeQuery(
+                            "SELECT status FROM color_map "
+                                    + "WHERE province = "
+                                    + "'" + res.getString(TravelMapDataBase.PROVINCE) + "'"
+                                    + ";"
                     );
+                    Status retStatus = null;
+                    switch (status.getString("color")) {
+                        case "Green":
+                            retStatus = Status.GREEN;
+                            break;
+                        case "Red":
+                            retStatus = Status.RED;
+                            break;
+                        case "Yellow":
+                            retStatus = Status.YELLOW;
+                            break;
+                    }
+                    msg.add(new MapDBItem(
+                            res.getString(TravelMapDataBase.PROVINCE),
+                            res.getString(TravelMapDataBase.CITY),
+                            res.getDouble(TravelMapDataBase.LATITUDE),
+                            res.getDouble(TravelMapDataBase.LONGITUDE),
+                            retStatus
+                    ));
                 }
 
             } catch (java.sql.SQLException e) {
