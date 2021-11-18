@@ -112,9 +112,7 @@ public class UserDataBase {
                                 + " WHERE "
                                 + UserDataBase.USER_NAME
                                 + " = "
-                                + "'"
-                                + loginUserName
-                                + "'"
+                                + "'" + loginUserName + "'"
                                 + ";"
                 );
                 Log.i(TAG, "查询完成");
@@ -122,7 +120,6 @@ public class UserDataBase {
                 while (resultSet.next()) {
                     User cur = new User();
                     try {
-                        cur.setId(resultSet.getInt(UserDataBase.ID));
                         cur.setName(resultSet.getString(UserDataBase.USER_NAME));
                         cur.setStatusWithString(resultSet.getString(UserDataBase.USER_STATUS));
                         cur.setPassword(resultSet.getString(UserDataBase.PASSWORD));
