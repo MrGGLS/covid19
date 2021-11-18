@@ -27,6 +27,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
@@ -36,6 +37,8 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import kotlin.collections.MapsKt;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -240,28 +243,34 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         ImageView safeLocation = findViewById(R.id.location_great);
         ImageView unsafeLocation = findViewById(R.id.location_unsafe);
         ImageView dangerLocation = findViewById(R.id.location_danger);
+        List<LatLng> pointList=new ArrayList<>();
+        LatLng curPoint;
         for (TravelMapDataBase.MapDBItem status : statuses) {
+            curPoint=new LatLng(status.latitude,status.longitude);
+            pointList.add(new LatLng(status.latitude,status.longitude));
             switch (status.status) {
                 case GREEN:
                     aMap.addMarker(new MarkerOptions().
-                            position(new LatLng(status.latitude, status.longitude))
+                            position(curPoint)
                             .snippet(status.province + "省" + status.city + "市")
                             .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(safeLocation))));
                     break;
                 case YELLOW:
                     aMap.addMarker(new MarkerOptions().
-                            position(new LatLng(status.latitude, status.longitude))
+                            position(curPoint)
                             .snippet(status.province + "省" + status.city + "市")
                             .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(unsafeLocation))));
                     break;
                 case RED:
                     aMap.addMarker(new MarkerOptions().
-                            position(new LatLng(status.latitude, status.longitude))
+                            position(curPoint)
                             .snippet(status.province + "省" + status.city + "市")
                             .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(dangerLocation))));
                     break;
             }
         }
+        Log.d(TAG,"fuck"+"len: "+pointList.size());
+        aMap.addPolyline(new PolylineOptions().addAll(pointList).width(20).color(Color.GREEN));
     }
 
 }

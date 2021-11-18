@@ -10,20 +10,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ggls.covid19.ui.login.LoginActivity;
 import com.ggls.covid19.ui.login.LoginViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.ggls.covid19.MESSAGE";
     FloatingActionButton seeMore;
     CardView toQr;
     CardView toEPMap;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView username=findViewById(R.id.username_in_main);
+        username.setText(UserDataBase.currentUser.getName().toUpperCase()+"，欢迎！");
         seeMore = findViewById(R.id.see_more);
 
         toQr = findViewById(R.id.to_qr);
@@ -86,19 +91,8 @@ public class MainActivity extends AppCompatActivity {
             toQr.animate().translationY(0).translationX(0).alpha(0f);
             toEPMap.animate().translationY(0).translationX(0).alpha(0f);
             toGuide.animate().translationY(0).translationX(0).alpha(0f);
-//            toQr.setVisibility(View.INVISIBLE);
-//            toEPMap.setVisibility(View.INVISIBLE);
-//            toGuide.setVisibility(View.INVISIBLE);
         }
         isOpen = !isOpen;
-    }
-
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
     }
 
     @Override
@@ -137,19 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case 2:
-                MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(MainActivity.this);
-                dialogBuilder.setTitle(getResources().getString(R.string.logout_title))
-                        .setMessage(getResources().getString(R.string.logout_text))
-                        .setNegativeButton(getResources().getString(R.string.logout_cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .setPositiveButton(getResources().getString(R.string.logout_accept), (dialog, which) -> {
-                            LoginViewModel.logout();
-                            backToOriginalActivity();
-                        }).show();
+                showDialog();
                 break;
             default:
                 break;
@@ -161,5 +143,30 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, OriginalActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK&& event.getRepeatCount()==0){
+            showDialog();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void showDialog(){
+        MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(MainActivity.this);
+        dialogBuilder.setTitle(getResources().getString(R.string.logout_title))
+                .setMessage(getResources().getString(R.string.logout_text))
+                .setNegativeButton(getResources().getString(R.string.logout_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setPositiveButton(getResources().getString(R.string.logout_accept), (dialog, which) -> {
+                    LoginViewModel.logout();
+                    backToOriginalActivity();
+                }).show();
     }
 }
