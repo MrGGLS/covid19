@@ -249,18 +249,18 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                 }
                 break;
             case YELLOW:
-                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.RED).setBitmapMargin(3).create();
+                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.rgb(0xF2, 0xD9, 0x0E)).setBitmapMargin(3).create();
                 try {
-                    qrBitmap = ScanUtil.buildBitmap("You're in danger!", type, width, height, codeRes);
+                    qrBitmap = ScanUtil.buildBitmap("You might be safe!", type, width, height, codeRes);
                     qrRes.setImageBitmap(qrBitmap);
                 } catch (WriterException e) {
                     Log.w("buildBitmap", e);
                 }
                 break;
             case RED:
-                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.rgb(0xF2, 0xD9, 0x0E)).setBitmapMargin(3).create();
+                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.RED).setBitmapMargin(3).create();
                 try {
-                    qrBitmap = ScanUtil.buildBitmap("You might be safe!", type, width, height, codeRes);
+                    qrBitmap = ScanUtil.buildBitmap("You're in danger!", type, width, height, codeRes);
                     qrRes.setImageBitmap(qrBitmap);
                 } catch (WriterException e) {
                     Log.w("buildBitmap", e);

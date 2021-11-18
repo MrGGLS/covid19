@@ -71,7 +71,7 @@ public class TravelMapDataBase {
                 if (conn == null) {
                     throw new SQLException();
                 }
-                Log.i(TAG, "数据库连接成功");
+                Log.i("fucking_test", "数据库连接成功111");
                 Statement stat = conn.createStatement();
                 stat.execute(
                         "INSERT INTO "
@@ -113,17 +113,26 @@ public class TravelMapDataBase {
                 if (conn == null) {
                     throw new SQLException();
                 }
-                Log.i(TAG, "数据库连接成功");
+                Log.i("fucking_test", "数据库连接成功22222");
                 Statement stat = conn.createStatement();
+                Log.i("fucking_test", "CURUSER: " + UserDataBase.currentUser.getName());
+                Log.i("fucking_test", "SELECT * FROM "
+                        + TravelMapDataBase.TABLE_NAME
+                        + " WHERE "
+                        + TravelMapDataBase.USER_NAME
+                        + " = "
+                        + "'" + UserDataBase.currentUser.getName() + "'"
+                        + ";");
                 ResultSet res = stat.executeQuery(
                         "SELECT * FROM "
                                 + TravelMapDataBase.TABLE_NAME
-                                + "WHERE "
+                                + " WHERE "
                                 + TravelMapDataBase.USER_NAME
                                 + " = "
                                 + "'" + UserDataBase.currentUser.getName() + "'"
                                 + ";"
                 );
+                Log.i("fucking_test", "fucking search is finished");
                 while (res.next()) {
                     ResultSet status = stat.executeQuery(
                             "SELECT color FROM color_map "
@@ -131,6 +140,7 @@ public class TravelMapDataBase {
                                     + "'" + res.getString(TravelMapDataBase.PROVINCE) + "'"
                                     + ";"
                     );
+                    status.next();
                     Status retStatus = null;
                     switch (status.getString("color")) {
                         case "Green":
@@ -143,6 +153,7 @@ public class TravelMapDataBase {
                             retStatus = Status.YELLOW;
                             break;
                     }
+                    Log.i("fucking_test", retStatus.toString());
                     msg.add(new MapDBItem(
                             res.getString(TravelMapDataBase.PROVINCE),
                             res.getString(TravelMapDataBase.CITY),
@@ -150,6 +161,7 @@ public class TravelMapDataBase {
                             res.getDouble(TravelMapDataBase.LONGITUDE),
                             retStatus
                     ));
+                    Log.i("fucking_test", msg.toString());
                 }
 
             } catch (java.sql.SQLException e) {
