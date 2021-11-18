@@ -46,12 +46,11 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
     private static final int REQUEST_PERMISSIONS = 7777;
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
-    private Button cLocation;
     MapView mapView;
     private AMap aMap;
     private LocationSource.OnLocationChangedListener mListener;
     private MyLocationStyle myLocationStyle=new MyLocationStyle();
-//地理编码搜索
+//  地理编码搜索
     private GeocodeSearch geocodeSearch;
     //解析成功标识码
     private static final int PARSE_SUCCESS_CODE = 1000;
@@ -68,7 +67,6 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         initLocation();
         initMap(savedInstanceState);
         checkingAndroidVersion();
-        cLocation = findViewById(R.id.c_location);
     }
 
     private void initMap(Bundle savedInstanceState) {
@@ -80,9 +78,6 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(findViewById(R.id.location_great))));
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW) ;
         myLocationStyle.interval(4000L);
-//        myLocationStyle.strokeColor(Color.argb(0,0,0,0));
-//        myLocationStyle.strokeWidth(0);
-//        myLocationStyle.radiusFillColor(Color.argb(0,0,0,0));
         aMap.setMyLocationStyle(myLocationStyle);
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
         aMap.setOnMapClickListener(this);
@@ -144,16 +139,12 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
-                //地址
-                String address = aMapLocation.getAddress();
-                Double latitude = aMapLocation.getLatitude();
-                Double longitude = aMapLocation.getLongitude();
-                StringBuffer stringBuffer = new StringBuffer();
-                stringBuffer.append("纬度：" + latitude + "\n");
-                stringBuffer.append("经度：" + longitude + "\n");
-                stringBuffer.append("地址：" + address + "\n");
-                cLocation.setText(stringBuffer.toString());
-
+//                //地址
+//                String address = aMapLocation.getAddress();
+//                Double latitude = aMapLocation.getLatitude();
+//                Double longitude = aMapLocation.getLongitude();
+//                停止定位
+                mLocationClient.stopLocation();
                 if(mListener!=null){
                     mListener.onLocationChanged(aMapLocation);
                 }
