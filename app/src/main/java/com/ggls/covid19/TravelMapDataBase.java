@@ -38,12 +38,19 @@ public class TravelMapDataBase {
     }
 
     private static ArrayList<MapDBItem> msg;
+    private static TravelMap input_travel_map;
 
     public void addLocation(TravelMap travelMap) {
-
+        input_travel_map = travelMap;
+        AddLocationThread th = new AddLocationThread();
+        th.start();
+//        th.join();
     }
 
     public ArrayList<MapDBItem> getStatusList() {
+        GetStatusListThread th = new GetStatusListThread();
+        th.start();
+//        th.join();
         return msg;
     }
 
@@ -58,19 +65,32 @@ public class TravelMapDataBase {
                 }
                 Log.i(TAG, "数据库连接成功");
                 Statement stat = conn.createStatement();
-                ResultSet res = stat.executeQuery(
-                        "SELECT * FROM "
+                stat.execute(
+                        "INSERT INTO "
                                 + TravelMapDataBase.TABLE_NAME
-                                + "WHERE "
-                                + TravelMapDataBase.USER_NAME
-                                + " = "
-                                + UserDataBase.currentUser.getName()
+                                + " VALUES(null, "
+                                + "'" + UserDataBase.currentUser.getName() + "', "
+                                + "'" + input_travel_map.getProvince() + "', "
+                                + "'" + input_travel_map.getCity() + "', "
+                                + "'" + input_travel_map.getLatitude() + "', "
+                                + "'" + input_travel_map.getLongitude() + "'"
+                                + ");"
+                );
+                ResultSet res = stat.executeQuery(
+                        "SELECT status FROM color_map WHERE color = "
+                                + "'" + input_travel_map.getProvince() + "'"
                                 + ";"
                 );
+                // size of res must be 1.
                 while (res.next()) {
-
+                    String color = res.getString("color");
+                    if (color.equals("Red")) {
+                        UserDataBase.currentUser.setStatus(Status.RED);
+                    } else if (color.equals("Yellow") &&
+                            UserDataBase.currentUser.getStatus() == Status.GREEN) {
+                        UserDataBase.currentUser.setStatus(Status.YELLOW);
+                    }
                 }
-
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
