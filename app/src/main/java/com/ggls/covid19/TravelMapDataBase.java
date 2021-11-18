@@ -62,7 +62,6 @@ public class TravelMapDataBase {
         return msg;
     }
 
-
     class AddLocationThread extends Thread {
         @Override
         public void run() {
@@ -71,7 +70,6 @@ public class TravelMapDataBase {
                 if (conn == null) {
                     throw new SQLException();
                 }
-                Log.i("fucking_test", "数据库连接成功111");
                 Statement stat = conn.createStatement();
                 stat.execute(
                         "INSERT INTO "
@@ -113,31 +111,29 @@ public class TravelMapDataBase {
                 if (conn == null) {
                     throw new SQLException();
                 }
-                Log.i("fucking_test", "数据库连接成功22222");
                 Statement stat = conn.createStatement();
-                Log.i("fucking_test", "CURUSER: " + UserDataBase.currentUser.getName());
-                Log.i("fucking_test", "SELECT * FROM "
-                        + TravelMapDataBase.TABLE_NAME
-                        + " WHERE "
-                        + TravelMapDataBase.USER_NAME
-                        + " = "
-                        + "'" + UserDataBase.currentUser.getName() + "'"
-                        + ";");
                 ResultSet res = stat.executeQuery(
                         "SELECT * FROM "
                                 + TravelMapDataBase.TABLE_NAME
                                 + " WHERE "
                                 + TravelMapDataBase.USER_NAME
                                 + " = "
-                                + "'" + UserDataBase.currentUser.getName() + "'"
+                                + "'" + UserDataBase.currentUser.getName() + "' "
+                                + "ORDER BY "
+                                + TravelMapDataBase.ID
                                 + ";"
                 );
-                Log.i("fucking_test", "fucking search is finished");
                 while (res.next()) {
-                    ResultSet status = stat.executeQuery(
+                    String province = res.getString(TravelMapDataBase.PROVINCE);
+                    String city = res.getString(TravelMapDataBase.CITY);
+                    double latitude = res.getDouble(TravelMapDataBase.LATITUDE);
+                    double longitude = res.getDouble(TravelMapDataBase.LONGITUDE);
+
+                    Statement stat2 = conn.createStatement();
+                    ResultSet status = stat2.executeQuery(
                             "SELECT color FROM color_map "
                                     + "WHERE province = "
-                                    + "'" + res.getString(TravelMapDataBase.PROVINCE) + "'"
+                                    + "'" + province + "'"
                                     + ";"
                     );
                     status.next();
@@ -153,17 +149,21 @@ public class TravelMapDataBase {
                             retStatus = Status.YELLOW;
                             break;
                     }
-                    Log.i("fucking_test", retStatus.toString());
                     msg.add(new MapDBItem(
-                            res.getString(TravelMapDataBase.PROVINCE),
-                            res.getString(TravelMapDataBase.CITY),
-                            res.getDouble(TravelMapDataBase.LATITUDE),
-                            res.getDouble(TravelMapDataBase.LONGITUDE),
+                            province,
+                            city,
+                            latitude,
+                            longitude,
                             retStatus
                     ));
-                    Log.i("fucking_test", msg.toString());
+                    Log.i("testing",
+                            province + " " + city + " " + latitude + " " + longitude + " " + retStatus);
+                    status.close();
+                    stat2.close();
                 }
-
+                res.close();
+                stat.close();
+                conn.close();
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }

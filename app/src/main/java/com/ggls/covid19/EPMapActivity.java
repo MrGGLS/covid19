@@ -235,9 +235,7 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
     }
 
     private void addMarkers(ArrayList<TravelMapDataBase.MapDBItem> statuses) {
-        if (statuses.isEmpty()){
-            Log.i("fucking_test","fuck");
-        }
+        Log.i("testing", String.valueOf(statuses.size()));
         //添加标点
         ImageView safeLocation = findViewById(R.id.location_great);
         ImageView unsafeLocation = findViewById(R.id.location_unsafe);

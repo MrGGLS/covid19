@@ -141,6 +141,9 @@ public class UserDataBase {
                 }
                 Log.i("database", "database: error");
                 currentUser = null;
+                resultSet.close();
+                statement.close();
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -171,8 +174,9 @@ public class UserDataBase {
                                 + ");"
                 );
                 Log.i(TAG, "插入完成");
-
                 currentUser = new User(loginUserName, loginPassword);
+                statement.close();
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
