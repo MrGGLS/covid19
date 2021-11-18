@@ -52,6 +52,7 @@ public class TravelMapDataBase {
     }
 
     public ArrayList<MapDBItem> getStatusList() {
+        msg.clear();
         try {
             GetStatusListThread th = new GetStatusListThread();
             th.start();
