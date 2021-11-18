@@ -16,10 +16,10 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+        this.status = Status.GREEN;
     }
 
-    public User(int id, String name,
-                Status status, String userID, String password) {
+    public User(int id, String name, Status status, String password) {
         this.id = id;
         this.name = name;
         this.status = status;
