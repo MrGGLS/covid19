@@ -42,7 +42,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class EPMapActivity extends AppCompatActivity implements AMapLocationListener, LocationSource, AMap.OnMapClickListener{
+public class EPMapActivity extends AppCompatActivity implements AMapLocationListener, LocationSource, AMap.OnMapClickListener {
     private static final String TAG = "EPMapActivity";
     private static final int REQUEST_PERMISSIONS = 7777;
     public AMapLocationClient mLocationClient = null;
@@ -52,15 +52,15 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
     MapView mapView;
     private AMap aMap;
     private LocationSource.OnLocationChangedListener mListener;
-    private MyLocationStyle myLocationStyle=new MyLocationStyle();
-    private TravelMapDataBase tmd=new TravelMapDataBase();
+    private MyLocationStyle myLocationStyle = new MyLocationStyle();
+    private TravelMapDataBase tmd = new TravelMapDataBase();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_epmap);
-        MapsInitializer.updatePrivacyAgree(this,true);
-        MapsInitializer.updatePrivacyShow(this,true,true);
+        MapsInitializer.updatePrivacyAgree(this, true);
+        MapsInitializer.updatePrivacyShow(this, true, true);
         initLocation();
         initMap(savedInstanceState);
         checkingAndroidVersion();
@@ -73,7 +73,7 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         //初始化地图控制器对象
         aMap = mapView.getMap();
         myLocationStyle.myLocationIcon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(findViewById(R.id.location_great))));
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW) ;
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW);
         myLocationStyle.interval(4000L);
         aMap.setMyLocationStyle(myLocationStyle);
         aMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -82,7 +82,7 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         aMap.setLocationSource(this);
         // 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
         aMap.setMyLocationEnabled(true);
-//        addMarkers(tmd.getStatusList());
+        addMarkers(tmd.getStatusList());
 
     }
 
@@ -122,7 +122,7 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
 //                Double longitude = aMapLocation.getLongitude();
 //                停止定位
 //                mLocationClient.stopLocation();
-                if(mListener!=null){
+                if (mListener != null) {
                     mListener.onLocationChanged(aMapLocation);
                 }
             } else {
@@ -135,10 +135,10 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
     }
 
     private void checkingAndroidVersion() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Android6.0及以上先获取权限再定位
             requestPermission();
-        }else {
+        } else {
             //Android6.0以下直接定位
             mLocationClient.startLocation();
         }
@@ -170,8 +170,8 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    private void showMsg(String msg){
-        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    private void showMsg(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -180,12 +180,14 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mapView.onResume();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mapView.onPause();
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -232,29 +234,31 @@ public class EPMapActivity extends AppCompatActivity implements AMapLocationList
         return bitmap;
     }
 
-    private void addMarkers(ArrayList<TravelMapDataBase.MapDBItem>statuses) {
+    private void addMarkers(ArrayList<TravelMapDataBase.MapDBItem> statuses) {
+        if (statuses.isEmpty())
+            return;
         //添加标点
-        ImageView safeLocation=findViewById(R.id.location_great);
-        ImageView unsafeLocation=findViewById(R.id.location_unsafe_card);
-        ImageView dangerLocation=findViewById(R.id.location_danger);
-        for (TravelMapDataBase.MapDBItem status: statuses) {
-            switch (status.status){
+        ImageView safeLocation = findViewById(R.id.location_great);
+        ImageView unsafeLocation = findViewById(R.id.location_unsafe);
+        ImageView dangerLocation = findViewById(R.id.location_danger);
+        for (TravelMapDataBase.MapDBItem status : statuses) {
+            switch (status.status) {
                 case GREEN:
                     aMap.addMarker(new MarkerOptions().
-                            position(new LatLng(status.latitude,status.longitude))
-                            .snippet(status.province+"省"+status.city+"市")
+                            position(new LatLng(status.latitude, status.longitude))
+                            .snippet(status.province + "省" + status.city + "市")
                             .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(safeLocation))));
                     break;
                 case YELLOW:
                     aMap.addMarker(new MarkerOptions().
-                            position(new LatLng(status.latitude,status.longitude))
-                            .snippet(status.province+"省"+status.city+"市")
+                            position(new LatLng(status.latitude, status.longitude))
+                            .snippet(status.province + "省" + status.city + "市")
                             .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(unsafeLocation))));
                     break;
                 case RED:
                     aMap.addMarker(new MarkerOptions().
-                            position(new LatLng(status.latitude,status.longitude))
-                            .snippet(status.province+"省"+status.city+"市")
+                            position(new LatLng(status.latitude, status.longitude))
+                            .snippet(status.province + "省" + status.city + "市")
                             .icon(BitmapDescriptorFactory.fromBitmap(convertViewToBitmap(dangerLocation))));
                     break;
             }

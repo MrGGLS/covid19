@@ -37,7 +37,7 @@ public class TravelMapDataBase {
         }
     }
 
-    private static ArrayList<MapDBItem> msg;
+    private static ArrayList<MapDBItem> msg = new ArrayList<>();
     private static TravelMap input_travel_map;
 
     public void addLocation(TravelMap travelMap) {
