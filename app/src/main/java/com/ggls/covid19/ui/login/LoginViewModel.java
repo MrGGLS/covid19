@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
+import com.ggls.covid19.UserDataBase;
 import com.ggls.covid19.data.LoginRepository;
 import com.ggls.covid19.data.Result;
 import com.ggls.covid19.data.model.LoggedInUser;
@@ -85,5 +86,9 @@ public class LoginViewModel extends ViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+    public static void logout() {
+        UserDataBase.currentUser = null;
     }
 }

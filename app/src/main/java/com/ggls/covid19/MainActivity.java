@@ -1,5 +1,6 @@
 package com.ggls.covid19;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ggls.covid19.ui.login.LoginActivity;
+import com.ggls.covid19.ui.login.LoginViewModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -143,11 +146,9 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         })
-                        .setPositiveButton(getResources().getString(R.string.logout_accept), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                backToOriginalActivity();
-                            }
+                        .setPositiveButton(getResources().getString(R.string.logout_accept), (dialog, which) -> {
+                            LoginViewModel.logout();
+                            backToOriginalActivity();
                         }).show();
                 break;
             default:

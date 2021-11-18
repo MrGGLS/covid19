@@ -19,6 +19,7 @@ public class OriginalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_original2);
         Button sign_in_bt = findViewById(R.id.sign_in_button);
         Button sign_up_bt = findViewById(R.id.sign_up_button);
