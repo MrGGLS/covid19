@@ -48,7 +48,7 @@ public class TravelMapDataBase {
     }
 
 
-    class GetStatusListThread extends Thread {
+    class AddLocationThread extends Thread {
         @Override
         public void run() {
             try {
@@ -77,7 +77,7 @@ public class TravelMapDataBase {
         }
     }
 
-    class AddLocationThread extends Thread {
+    class GetStatusListThread extends Thread {
         @Override
         public void run() {
             try {
@@ -93,7 +93,7 @@ public class TravelMapDataBase {
                                 + "WHERE "
                                 + TravelMapDataBase.USER_NAME
                                 + " = "
-                                + UserDataBase.currentUser.getName()
+                                + "'" + UserDataBase.currentUser.getName() + "'"
                                 + ";"
                 );
                 while (res.next()) {
