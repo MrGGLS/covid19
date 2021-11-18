@@ -52,6 +52,13 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     private Double longitude;
     private String resOriginal;
 
+    private class InitLocationThread extends Thread{
+        @Override
+        public void run() {
+            initLocation();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +99,13 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         showMsg("正在获取当前位置...");
-        initLocation();
+        InitLocationThread iThread=new InitLocationThread();
+        iThread.start();
+        try {
+            iThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //receive result after your activity finished scanning
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK || data == null) {
@@ -147,7 +160,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                 longitude = aMapLocation.getLongitude();
                 showMsg("当前地理位置是：" + address);
 //                只获取一次定位信息，后面的语句可以去掉
-//                mLocationClient.stopLocation();
+                mLocationClient.stopLocation();
 //              上传地理信息到数据库
 //                final String[] splitAddress = address.split("省|市");
 //                tmb.addLocation(new TravelMap("0", splitAddress[0], splitAddress[1], latitude, longitude));
