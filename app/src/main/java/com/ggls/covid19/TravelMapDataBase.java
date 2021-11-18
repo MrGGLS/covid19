@@ -6,6 +6,7 @@ import android.util.Log;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,15 +29,13 @@ public class TravelMapDataBase {
         public String status;
     }
 
-    private static MapDBItem[] msg;
-
-
+    private static ArrayList<MapDBItem> msg;
 
     public void addLocation(TravelMap travelMap) {
 
     }
 
-    public MapDBItem[] getStatusList() {
+    public ArrayList<MapDBItem> getStatusList() {
         return msg;
     }
 
@@ -61,9 +60,7 @@ public class TravelMapDataBase {
                                 + ";"
                 );
                 while (res.next()) {
-                    TravelMap map = new TravelMap(
-//                            res.getString()
-                    );
+
                 }
 
             } catch (java.sql.SQLException e) {
