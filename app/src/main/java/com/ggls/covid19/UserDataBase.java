@@ -160,8 +160,7 @@ public class UserDataBase {
                 statement.execute(
                         "INSERT INTO "
                                 + UserDataBase.TABLE_NAME
-                                + " VALUES( "
-                                + "null, "
+                                + " VALUES("
                                 + "'"
                                 + loginUserName
                                 + "', "
