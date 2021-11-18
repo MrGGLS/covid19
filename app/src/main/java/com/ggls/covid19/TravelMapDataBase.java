@@ -85,7 +85,7 @@ public class TravelMapDataBase {
                                 + ");"
                 );
                 ResultSet res = stat.executeQuery(
-                        "SELECT color FROM color_map WHERE color = "
+                        "SELECT color FROM color_map WHERE province = "
                                 + "'" + input_travel_map.getProvince() + "'"
                                 + ";"
                 );
