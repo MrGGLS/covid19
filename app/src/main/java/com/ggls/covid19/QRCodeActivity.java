@@ -47,6 +47,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     private String address;
     private Double latitude;
     private Double longitude;
+    private String resOriginal;
     private Object lock=new Object();
 
     @Override
@@ -88,10 +89,8 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //                    开启线程获取当前位置
         showMsg("正在获取当前位置...");
         initLocation();
-        showMsg("latitude: "+latitude+"longitude: "+longitude);
         //receive result after your activity finished scanning
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK || data == null) {
@@ -106,12 +105,12 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                     int width = 750;
                     int height = 750;
                     ImageView qrRes=findViewById(R.id.qr_res);
-                    String res=((HmsScan) obj).getOriginalValue();
+                    resOriginal=((HmsScan) obj).getOriginalValue();
                     Bitmap qrBitmap;
                     HmsBuildBitmapOption codeRes;
                     CardView qrTipCard=findViewById(R.id.qr_res_tip_card);
                     TextView qrTip=findViewById(R.id.qr_res_tip);
-                    if(res.equals("China")){
+                    if(resOriginal.equals("China")){
                         codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
                         try {
                             qrBitmap = ScanUtil.buildBitmap("You're safe!", type, width, height, codeRes);
@@ -119,7 +118,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                         } catch (WriterException e) {
                             Log.w("buildBitmap", e);
                         }
-                    }else if(res.equals("America")){
+                    }else if(resOriginal.equals("America")){
                         codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.RED).setBitmapMargin(3).create();
                         try {
                             qrBitmap = ScanUtil.buildBitmap("You're in danger!", type, width, height, codeRes);
@@ -136,7 +135,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                             Log.w("buildBitmap", e);
                         }
                     }
-                    Toast.makeText(this, res, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, resOriginal, Toast.LENGTH_SHORT).show();
                     switch (codeRes.bimapColor){
                         case Color.GREEN:
                             qrTip.setText("哎哟，不错哦。请继续保持~");
