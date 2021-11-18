@@ -41,16 +41,24 @@ public class TravelMapDataBase {
     private static TravelMap input_travel_map;
 
     public void addLocation(TravelMap travelMap) {
-        input_travel_map = travelMap;
-        AddLocationThread th = new AddLocationThread();
-        th.start();
-//        th.join();
+        try {
+            input_travel_map = travelMap;
+            AddLocationThread th = new AddLocationThread();
+            th.start();
+            th.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<MapDBItem> getStatusList() {
-        GetStatusListThread th = new GetStatusListThread();
-        th.start();
-//        th.join();
+        try {
+            GetStatusListThread th = new GetStatusListThread();
+            th.start();
+            th.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return msg;
     }
 
