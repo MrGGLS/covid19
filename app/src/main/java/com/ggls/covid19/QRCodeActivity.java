@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -44,11 +45,11 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = null;
     private LocationSource.OnLocationChangedListener mListener;
+    private TravelMapDataBase tmb=new TravelMapDataBase();
     private String address;
     private Double latitude;
     private Double longitude;
     private String resOriginal;
-    private Object lock=new Object();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,58 +102,7 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
             Object obj = data.getParcelableExtra(ScanUtil.RESULT);
             if (obj instanceof HmsScan) {
                 if (!TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
-                    int type = HmsScan.QRCODE_SCAN_TYPE;
-                    int width = 750;
-                    int height = 750;
-                    ImageView qrRes=findViewById(R.id.qr_res);
                     resOriginal=((HmsScan) obj).getOriginalValue();
-                    Bitmap qrBitmap;
-                    HmsBuildBitmapOption codeRes;
-                    CardView qrTipCard=findViewById(R.id.qr_res_tip_card);
-                    TextView qrTip=findViewById(R.id.qr_res_tip);
-                    if(resOriginal.equals("China")){
-                        codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
-                        try {
-                            qrBitmap = ScanUtil.buildBitmap("You're safe!", type, width, height, codeRes);
-                            qrRes.setImageBitmap(qrBitmap);
-                        } catch (WriterException e) {
-                            Log.w("buildBitmap", e);
-                        }
-                    }else if(resOriginal.equals("America")){
-                        codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.RED).setBitmapMargin(3).create();
-                        try {
-                            qrBitmap = ScanUtil.buildBitmap("You're in danger!", type, width, height, codeRes);
-                            qrRes.setImageBitmap(qrBitmap);
-                        } catch (WriterException e) {
-                            Log.w("buildBitmap", e);
-                        }
-                    }else{
-                        codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.rgb(0xF2,0xD9,0x0E)).setBitmapMargin(3).create();
-                        try {
-                            qrBitmap = ScanUtil.buildBitmap("You might be safe!", type, width, height, codeRes);
-                            qrRes.setImageBitmap(qrBitmap);
-                        } catch (WriterException e) {
-                            Log.w("buildBitmap", e);
-                        }
-                    }
-                    Toast.makeText(this, resOriginal, Toast.LENGTH_SHORT).show();
-                    switch (codeRes.bimapColor){
-                        case Color.GREEN:
-                            qrTip.setText("哎哟，不错哦。请继续保持~");
-                            qrTip.setTextColor(Color.GREEN);
-                            break;
-                        case Color.RED:
-                            qrTip.setText("隔离！马上隔离！");
-                            qrTip.setTextColor(Color.RED);
-                            break;
-                        default:
-                            qrTip.setText("我觉得你还是需要做一下核酸哦~");
-                            qrTip.setTextColor(Color.rgb(0xF2,0xD9,0x0E));
-                            break;
-                    }
-                    qrTipCard.setVisibility(View.VISIBLE);
-                    qrTipCard.setAlpha(0);
-                    qrTipCard.animate().translationY(-300f).alpha(1f).setDuration(1800);
                 }
                 return;
             }
@@ -194,12 +144,14 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
                 address = aMapLocation.getAddress();
                 latitude = aMapLocation.getLatitude();
                 longitude = aMapLocation.getLongitude();
-                synchronized (mLocationOption){
-                    mLocationOption.notifyAll();
-                }
                 showMsg("当前地理位置是："+address);
 //                只获取一次定位信息，后面的语句可以去掉
                 mLocationClient.stopLocation();
+//              上传地理信息到数据库
+                final String[] splitAddress = address.split("省|市");
+                tmb.addLocation(new TravelMap(0,splitAddress[0],splitAddress[1],latitude, longitude));
+//                生成二维码
+                generateCodeAndCard();
                 if(mListener!=null){
                     mListener.onLocationChanged(aMapLocation);
                 }
@@ -213,6 +165,65 @@ public class QRCodeActivity extends AppCompatActivity implements AMapLocationLis
 
     public void showMsg(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    public void generateCodeAndCard(){
+        int type = HmsScan.QRCODE_SCAN_TYPE;
+        int width = 750;
+        int height = 750;
+        ImageView qrRes=findViewById(R.id.qr_res);
+        Bitmap qrBitmap;
+        HmsBuildBitmapOption codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
+        CardView qrTipCard=findViewById(R.id.qr_res_tip_card);
+        TextView qrTip=findViewById(R.id.qr_res_tip);
+        switch (tmb.getStatus()){
+            case GREEN:
+                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.GREEN).setBitmapMargin(3).create();
+                try {
+                    qrBitmap = ScanUtil.buildBitmap("You're safe!", type, width, height, codeRes);
+                    qrRes.setImageBitmap(qrBitmap);
+                } catch (WriterException e) {
+                    Log.w("buildBitmap", e);
+                }
+                break;
+            case YELLOW:
+                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.RED).setBitmapMargin(3).create();
+                try {
+                    qrBitmap = ScanUtil.buildBitmap("You're in danger!", type, width, height, codeRes);
+                    qrRes.setImageBitmap(qrBitmap);
+                } catch (WriterException e) {
+                    Log.w("buildBitmap", e);
+                }
+                break;
+            case RED:
+                codeRes = new HmsBuildBitmapOption.Creator().setBitmapBackgroundColor(Color.WHITE).setBitmapColor(Color.rgb(0xF2,0xD9,0x0E)).setBitmapMargin(3).create();
+                try {
+                    qrBitmap = ScanUtil.buildBitmap("You might be safe!", type, width, height, codeRes);
+                    qrRes.setImageBitmap(qrBitmap);
+                } catch (WriterException e) {
+                    Log.w("buildBitmap", e);
+                }
+                break;
+        }
+
+        Toast.makeText(this, resOriginal, Toast.LENGTH_SHORT).show();
+        switch (codeRes.bimapColor){
+            case Color.GREEN:
+                qrTip.setText("哎哟，不错哦。请继续保持~");
+                qrTip.setTextColor(Color.GREEN);
+                break;
+            case Color.RED:
+                qrTip.setText("隔离！马上隔离！");
+                qrTip.setTextColor(Color.RED);
+                break;
+            default:
+                qrTip.setText("我觉得你还是需要做一下核酸哦~");
+                qrTip.setTextColor(Color.rgb(0xF2,0xD9,0x0E));
+                break;
+        }
+        qrTipCard.setVisibility(View.VISIBLE);
+        qrTipCard.setAlpha(0);
+        qrTipCard.animate().translationY(-300f).alpha(1f).setDuration(1800);
     }
 
     @Override

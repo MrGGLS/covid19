@@ -39,7 +39,7 @@ public class TravelMapDataBase {
 
     }
 
-    public TravelMap getStatus() {
+    public Status getStatus() {
         return null;
     }
 
