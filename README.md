@@ -9,7 +9,7 @@
 ## 功能介绍
 
 ### 简单的登录和注册实现
-![login](https://github.com/MrGGLS/covid19/master/gifs/login.gif)
+![login](https://github.com/MrGGLS/covid19/blob/master/gifs/login.gif)
 ### 扫描二维码
 
 通过扫码获取用户当前位置信息，上传到云端数据库和用户的疫情轨迹匹配，得出用户当前健康码的颜色（总共有红、黄、绿三个等级），最后返回到APP上显示
