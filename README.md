@@ -9,26 +9,24 @@
 ## 功能介绍
 
 ### 简单的登录和注册实现
-
-![login](https://gitee.com/mrggls/gglsimage-bed/raw/master/img/202111282316185.gif)
-
+![login](https://github.com/MrGGLS/Some_Codes/blob/master/gifs/login.gif)
 ### 扫描二维码
 
 通过扫码获取用户当前位置信息，上传到云端数据库和用户的疫情轨迹匹配，得出用户当前健康码的颜色（总共有红、黄、绿三个等级），最后返回到APP上显示
 
-![scan](https://gitee.com/mrggls/gglsimage-bed/raw/master/img/202111282317396.gif)
+![scan](https://github.com/MrGGLS/Some_Codes/blob/master/gifs/scan.gif)
 
 ### 查看疫情地图
 
 通过连接云端数据库获取用户的疫情轨迹，并在地图上显示
 
-![map](https://gitee.com/mrggls/gglsimage-bed/raw/master/img/202111282317225.gif)
+![map](https://github.com/MrGGLS/Some_Codes/blob/master/gifs/map.gif)
 
 ### 防疫贴士
 
 摘自互联网上的防疫贴士(自己哪会写啊~)
 
-![tip](https://gitee.com/mrggls/gglsimage-bed/raw/master/img/202111282317421.gif)
+![tip](https://github.com/MrGGLS/Some_Codes/blob/master/gifs/tip.gif)
 
 
 
@@ -36,7 +34,7 @@
 
 查看开发者信息
 
-![aboutdev](https://gitee.com/mrggls/gglsimage-bed/raw/master/img/202111282318588.gif)
+![aboutdev](https://github.com/MrGGLS/Some_Codes/blob/master/gifs/aboutdev.gif)
 
 退出登录的两种方式（没图，懒得弄）
 
