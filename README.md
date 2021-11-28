@@ -14,19 +14,19 @@
 
 通过扫码获取用户当前位置信息，上传到云端数据库和用户的疫情轨迹匹配，得出用户当前健康码的颜色（总共有红、黄、绿三个等级），最后返回到APP上显示
 
-![scan](https://github.com/MrGGLS/covid19/master/gifs/scan.gif)
+![scan](https://github.com/MrGGLS/covid19/blob/master/gifs/scan.gif)
 
 ### 查看疫情地图
 
 通过连接云端数据库获取用户的疫情轨迹，并在地图上显示
 
-![map](https://github.com/MrGGLS/covid19/master/gifs/map.gif)
+![map](https://github.com/MrGGLS/covid19/blob/master/gifs/map.gif)
 
 ### 防疫贴士
 
 摘自互联网上的防疫贴士(自己哪会写啊~)
 
-![tip](https://github.com/MrGGLS/covid19/master/gifs/tip.gif)
+![tip](https://github.com/MrGGLS/covid19/blob/master/gifs/tip.gif)
 
 
 
@@ -34,7 +34,7 @@
 
 查看开发者信息
 
-![aboutdev](https://github.com/MrGGLS/covid19/master/gifs/aboutdev.gif)
+![aboutdev](https://github.com/MrGGLS/covid19/blob/master/gifs/aboutdev.gif)
 
 退出登录的两种方式（没图，懒得弄）
 
