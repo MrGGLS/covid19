@@ -15,12 +15,9 @@ public class MySQLConnection {
 
     private MySQLConnection() {
         driver = "com.mysql.jdbc.Driver";
-        dbURL = "jdbc:mysql://" +
-                "rm-2vccl279itesf75k33o.mysql.cn-chengdu.rds.aliyuncs.com:3306" +
-                "/covid_19_users?" +
-                "allowPublicKeyRetrieval=true";
-        user = "android_app_db";
-        password = "covid_19";
+        dbURL = "";
+        user = "";
+        password = "";
     }
 
     public static Connection getConnection() {
